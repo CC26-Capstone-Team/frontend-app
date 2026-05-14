@@ -32,21 +32,27 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col">
         <QueryProvider>
-          <header className="relative flex items-center justify-between px-6 py-4 shadow-sm">
+          {/* PERUBAHAN DI SINI:
+        1. sticky top-0 z-50 -> Membuat header menempel di atas dan tidak tertimpa animasi
+        2. bg-white/80 backdrop-blur-md -> Efek kaca buram transparan
+        3. border-b border-slate-200/60 -> Garis batas bawah yang sangat halus sebagai pengganti shadow keras 
+      */}
+          <header className="sticky top-0 z-50 flex items-center justify-between border-b border-slate-200/60 bg-white/80 px-6 py-4 backdrop-blur-md">
             <h1 className="font-heading text-xl font-extrabold">
               <span className="text-indigo-600">CarPath</span>
               <span className="text-[#0f9488]">Mu</span>
             </h1>
+
             <Navbar />
 
             <div className="flex gap-2.5">
               <Button
                 variant={"outline"}
-                className="cursor-pointer border border-indigo-600 px-4 py-4 text-sm font-semibold text-indigo-600 hover:bg-indigo-600 hover:text-white"
+                className="cursor-pointer border-indigo-600 px-5 py-4 text-sm font-semibold text-indigo-600 transition-all hover:bg-indigo-600 hover:text-white"
               >
                 Masuk
               </Button>
-              <Button className="cursor-pointer border border-indigo-600 bg-indigo-600 px-4 py-4 text-sm font-semibold hover:bg-indigo-800">
+              <Button className="cursor-pointer border-indigo-600 bg-indigo-600 px-5 py-4 text-sm font-semibold text-white transition-all hover:bg-indigo-700">
                 Daftar
               </Button>
             </div>
