@@ -1,8 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { MoveRight } from "lucide-react";
-import { motion } from "framer-motion";
 import Step from "@/features/home/components/Steps";
 import Features from "@/features/home/components/Feature";
 import CtaSection from "@/features/home/components/CtaSection";

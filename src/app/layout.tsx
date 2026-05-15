@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Syne } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/providers/query-providers";
-import Navbar from "@/components/shared/Navbar";
-import { Button } from "@/components/ui/button";
 import Header from "@/components/shared/Header";
 
 const jakarta = Plus_Jakarta_Sans({

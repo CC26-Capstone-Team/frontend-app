@@ -70,7 +70,7 @@ const TestimonialColumn = ({
   reverse?: boolean;
 }) => {
   return (
-    <div className="relative h-[600px] overflow-hidden">
+    <div className="relative h-150 overflow-hidden">
       <motion.div
         className="flex flex-col gap-6"
         animate={{
@@ -91,7 +91,7 @@ const TestimonialColumn = ({
             className="group relative border-slate-200/60 bg-white/90 p-6 shadow-sm transition-all duration-300 hover:shadow-xl"
           >
             {/* AWS Glow Effect */}
-            <div className="absolute -inset-0.5 -z-10 rounded-xl bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 opacity-0 blur-lg transition-opacity duration-500 group-hover:opacity-30" />
+            <div className="absolute -inset-0.5 -z-10 rounded-xl bg-linear-to-r from-fuchsia-500 via-purple-500 to-indigo-500 opacity-0 blur-lg transition-opacity duration-500 group-hover:opacity-30" />
 
             <CardContent className="p-0">
               <div className="mb-4 flex items-center gap-3">
@@ -110,7 +110,7 @@ const TestimonialColumn = ({
                 </div>
               </div>
               <p className="text-sm leading-relaxed text-slate-700 italic">
-                "{testi.quote}"
+                &ldquo;{testi.quote}&rdquo;
               </p>
             </CardContent>
           </Card>
@@ -135,7 +135,7 @@ export default function Testimonials() {
           viewport={{ once: true }}
           className="mb-16 text-center"
         >
-          <span className="block bg-gradient-to-r from-indigo-600 to-fuchsia-600 bg-clip-text text-sm font-bold text-transparent">
+          <span className="block bg-linear-to-r from-indigo-600 to-fuchsia-600 bg-clip-text text-sm font-bold text-transparent">
             WALL OF LOVE
           </span>
           <h2 className="mt-2 text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
@@ -145,7 +145,7 @@ export default function Testimonials() {
 
         {/* Masonry Infinite Container */}
         {/* Mask-image untuk fade-out di atas dan bawah */}
-        <div className="relative grid grid-cols-1 gap-6 [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)] md:grid-cols-2 lg:grid-cols-3">
+        <div className="relative grid grid-cols-1 gap-6 mask-[linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)] md:grid-cols-2 lg:grid-cols-3">
           {/* Kolom 1 - Jalan Normal */}
           <TestimonialColumn items={firstColumn} duration={35} />
 
