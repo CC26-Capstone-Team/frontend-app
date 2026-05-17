@@ -4,6 +4,7 @@ import "./globals.css";
 import QueryProvider from "@/providers/query-providers";
 import Navbar from "@/components/shared/Navbar";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-sans",
@@ -43,11 +44,15 @@ export default function RootLayout({
               <Button
                 variant={"outline"}
                 className="cursor-pointer border border-indigo-600 px-4 py-4 text-sm font-semibold text-indigo-600 hover:bg-indigo-600 hover:text-white"
+                asChild
               >
-                Masuk
+                <Link href="/login">Masuk</Link>
               </Button>
-              <Button className="cursor-pointer border border-indigo-600 bg-indigo-600 px-4 py-4 text-sm font-semibold hover:bg-indigo-800">
-                Daftar
+              <Button
+                className="cursor-pointer border border-indigo-600 bg-indigo-600 px-4 py-4 text-sm font-semibold hover:bg-indigo-800"
+                asChild
+              >
+                <Link href="/register">Daftar</Link>
               </Button>
             </div>
           </header>
