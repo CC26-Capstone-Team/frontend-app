@@ -50,7 +50,7 @@ const features: FeatureProps[] = [
 
 export default function Features() {
   return (
-    <section className="space-y-12 bg-indigo-50/50 py-16">
+    <section id="features" className="space-y-12 bg-indigo-50/50 py-16">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
