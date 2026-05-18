@@ -1,7 +1,5 @@
-import React from "react";
-import Link from "next/link";
+import LoginForm from "@/features/auth/components/LoginForm";
 import { Compass, Sparkles, Star } from "lucide-react";
-import LoginForm from "@/components/shared/LoginForm";
 
 export default function LoginPage() {
   return (

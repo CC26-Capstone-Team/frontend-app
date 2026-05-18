@@ -1,7 +1,5 @@
-import React from "react";
-import Link from "next/link";
+import RegisterForm from "@/features/auth/components/RegisterForm";
 import { Compass, Sparkles, ShieldCheck } from "lucide-react";
-import RegisterForm from "@/components/shared/RegisterForm";
 
 export default function RegisterPage() {
   return (
