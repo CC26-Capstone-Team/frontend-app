@@ -10,7 +10,7 @@ import Header from "@/features/home/components/Header";
 
 export default function Page() {
   return (
-    <div className="relative overflow-hidden bg-indigo-50 pb-24">
+    <div className="bg-indigo-50 pb-24">
       {/* ---- LAYER HEADER SECTION */}
       <Header />
 

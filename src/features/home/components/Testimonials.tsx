@@ -127,7 +127,7 @@ export default function Testimonials() {
   const thirdColumn = testimonials.slice(6, 8).concat(testimonials.slice(0, 1));
 
   return (
-    <section className="overflow-hidden bg-indigo-50/30 py-24">
+    <section id="testimonials" className="overflow-hidden bg-indigo-50/30 py-24">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

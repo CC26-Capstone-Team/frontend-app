@@ -48,7 +48,7 @@ const steps: StepsProps[] = [
 
 export default function Step() {
   return (
-    <section className="space-y-2 bg-indigo-50/50 py-10">
+    <section id="steps" className="space-y-2 bg-indigo-50/50 py-10">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

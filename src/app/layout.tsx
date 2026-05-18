@@ -28,9 +28,9 @@ export default function RootLayout({
       lang="en"
       className={`${jakarta.variable} ${syne.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">
+      <body>
         <QueryProvider>
-          <main className="flex-1">{children}</main>
+          <main>{children}</main>
         </QueryProvider>
       </body>
     </html>
