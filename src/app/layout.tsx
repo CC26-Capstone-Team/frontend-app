@@ -5,6 +5,7 @@ import QueryProvider from "@/providers/query-providers";
 import Navbar from "@/components/shared/Navbar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Header from "@/components/shared/Header";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-sans",
@@ -33,12 +34,8 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col">
         <QueryProvider>
-          <header className="relative flex items-center justify-between px-6 py-4 shadow-sm">
-            <h1 className="font-heading text-xl font-extrabold">
-              <span className="text-indigo-600">CarPath</span>
-              <span className="text-[#0f9488]">Mu</span>
-            </h1>
-            <Navbar />
+          {/* Header dipanggil di sini */}
+          <Header />
 
             <div className="flex gap-2.5">
               <Button
@@ -58,6 +55,7 @@ export default function RootLayout({
           </header>
 
           <main>{children}</main>
+          <main className="flex-1">{children}</main>
         </QueryProvider>
       </body>
     </html>
