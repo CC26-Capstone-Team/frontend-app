@@ -29,6 +29,8 @@ export default function MainLayout({
   return (
     // Mengubah bg-indigo-50 menjadi bg-slate-50 agar isi dashboard lebih bersih
     <div className="min-h-screen bg-slate-50 font-sans">
+      <Header />
+
       <div className="flex min-h-screen pt-18">
         {/* Menggunakan pt-[72px] untuk memastikan konten tidak tertutup Header yang sticky (asumsi tinggi header ~72px) */}
         <Sidebar sidebarOpen={sidebarOpen} />
