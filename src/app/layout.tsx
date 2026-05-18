@@ -14,7 +14,10 @@ const syne = Syne({
 });
 
 export const metadata: Metadata = {
-  title: "CarPathMu",
+  title: {
+    default: "CarPathMu",
+    template: "%s | CarPathMu",
+  },
   description: "Sistem Rekomendasi Jalur Karir",
 };
 

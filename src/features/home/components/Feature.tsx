@@ -125,7 +125,10 @@ export default function Features() {
   };
 
   return (
-    <section className="relative overflow-hidden bg-indigo-50/50 py-24">
+    <section
+      id="features"
+      className="relative overflow-hidden bg-indigo-50/50 py-24"
+    >
       <div className="mx-auto max-w-7xl px-4 md:px-8">
         {/* === HEADER SECTION === */}
         <motion.div
@@ -146,7 +149,10 @@ export default function Features() {
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_1.2fr] lg:gap-8">
           {/* SISI KIRI: TABS HORIZONTAL (MOBILE) & NAVIGASI VERTIKAL (DESKTOP) */}
           {/* Mobile View: Centered & Auto-Scrolling Swiper Tabs */}
-          <div id="mobile-tabs-container" className="no-scrollbar flex w-full snap-x justify-start gap-3 overflow-x-auto scroll-smooth px-4 pb-4 sm:justify-center lg:hidden">
+          <div
+            id="mobile-tabs-container"
+            className="no-scrollbar flex w-full snap-x justify-start gap-3 overflow-x-auto scroll-smooth px-4 pb-4 sm:justify-center lg:hidden"
+          >
             {features.map((feature, index) => {
               const Icon = feature.icon;
               const isActive = activeTab === index;

@@ -16,7 +16,8 @@ const steps = [
   {
     step: 2,
     title: "Login / Daftar",
-    description: "Buat akun gratis untuk menyimpan dan mengakses hasilmu kapan saja.",
+    description:
+      "Buat akun gratis untuk menyimpan dan mengakses hasilmu kapan saja.",
     icon: UserPlus,
     color: "text-fuchsia-600",
     bgColor: "bg-fuchsia-100",
@@ -25,7 +26,8 @@ const steps = [
   {
     step: 3,
     title: "AI Menganalisis",
-    description: "Model Deep Learning memproses datamu untuk mencari kecocokan karir.",
+    description:
+      "Model Deep Learning memproses datamu untuk mencari kecocokan karir.",
     icon: BrainCircuit,
     color: "text-purple-600",
     bgColor: "bg-purple-100",
@@ -34,7 +36,8 @@ const steps = [
   {
     step: 4,
     title: "Lihat Hasil",
-    description: "Dapatkan roadmap karir, kursus, dan rekomendasi pekerjaan yang sesuai.",
+    description:
+      "Dapatkan roadmap karir, kursus, dan rekomendasi pekerjaan yang sesuai.",
     icon: Rocket,
     color: "text-emerald-600",
     bgColor: "bg-emerald-100",
@@ -44,14 +47,13 @@ const steps = [
 
 export default function Step() {
   return (
-    <section className="relative overflow-hidden bg-indigo-50 py-24">
+    <section id="steps" className="relative overflow-hidden bg-indigo-50 py-24">
       {/* Background Ornamen halus agar menyatu dengan section atas/bawah */}
       <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-30">
         <div className="h-[500px] w-[500px] rounded-full bg-white blur-[100px]" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-8">
-        
         {/* HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -69,9 +71,8 @@ export default function Step() {
 
         {/* TIMELINE CONTAINER */}
         <div className="relative mt-8 md:mt-16">
-          
           {/* Garis Latar (HANYA MUNCUL DI DESKTOP) */}
-          <div className="absolute left-[12.5%] right-[12.5%] top-7 hidden h-1 rounded-full bg-slate-200/60 md:block">
+          <div className="absolute top-7 right-[12.5%] left-[12.5%] hidden h-1 rounded-full bg-slate-200/60 md:block">
             {/* Garis Progres Animasi (Desktop) */}
             <motion.div
               initial={{ width: 0 }}
@@ -97,18 +98,22 @@ export default function Step() {
                 {/* LINGKARAN IKON */}
                 {/* -mb-7 di mobile menarik kartu di bawahnya naik agar ikon terlihat melayang di atas batas kartu */}
                 <div className="relative z-10 -mb-7 md:mb-6">
-                  <div className={`flex h-14 w-14 items-center justify-center rounded-2xl ${step.bgColor} shadow-lg ${step.glowColor} border-2 border-white transition-transform duration-300 hover:scale-110`}>
+                  <div
+                    className={`flex h-14 w-14 items-center justify-center rounded-2xl ${step.bgColor} shadow-lg ${step.glowColor} border-2 border-white transition-transform duration-300 hover:scale-110`}
+                  >
                     <step.icon className={`h-6 w-6 ${step.color}`} />
                   </div>
                   {/* Badge Angka Kecil */}
-                  <div className={`absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white ${step.bgColor} ${step.color} text-xs font-black shadow-sm`}>
+                  <div
+                    className={`absolute -top-2 -right-2 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white ${step.bgColor} ${step.color} text-xs font-black shadow-sm`}
+                  >
                     {step.step}
                   </div>
                 </div>
 
                 {/* KARTU KONTEN (Glassmorphism) */}
                 {/* pt-10 di mobile untuk memberi ruang pada ikon yang menabrak dari atas */}
-                <div className="w-full rounded-2xl border border-white/60 bg-white/40 px-6 pb-6 pt-10 text-center shadow-sm backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/60 hover:shadow-lg md:p-6">
+                <div className="w-full rounded-2xl border border-white/60 bg-white/40 px-6 pt-10 pb-6 text-center shadow-sm backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/60 hover:shadow-lg md:p-6">
                   <h3 className="mb-2 text-lg font-bold text-slate-900">
                     {step.title}
                   </h3>
