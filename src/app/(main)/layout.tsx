@@ -1,7 +1,7 @@
 "use client";
 
-import Header from "@/components/shared/Header";
 import Sidebar from "@/components/shared/Sidebar";
+import Header from "@/features/home/components/Header";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
