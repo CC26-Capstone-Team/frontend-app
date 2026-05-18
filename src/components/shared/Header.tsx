@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/shared/Navbar";
+import Link from "next/link";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -57,10 +58,10 @@ export default function Header() {
             variant={"outline"}
             className="cursor-pointer border border-indigo-600 px-5 py-4 text-sm font-semibold text-indigo-600 transition-all hover:bg-indigo-600 hover:text-white"
           >
-            Masuk
+            <Link href="/login">Masuk</Link>
           </Button>
           <Button className="cursor-pointer border border-indigo-600 bg-indigo-600 px-5 py-4 text-sm font-semibold text-white transition-all hover:bg-indigo-700">
-            Daftar
+            <Link href="/register">Daftar</Link>
           </Button>
         </div>
 
