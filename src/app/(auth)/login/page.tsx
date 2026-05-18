@@ -5,7 +5,7 @@ import LoginForm from "@/components/shared/LoginForm";
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-[calc(100vh-73px)] w-full overflow-hidden bg-slate-50">
+    <div className="flex min-h-screen w-full overflow-hidden bg-slate-50">
       {/* Left Pane - Premium Illustration & Dynamic Background */}
       <div className="relative hidden w-1/2 flex-col justify-between bg-indigo-950 p-12 text-white lg:flex">
         {/* Glow Effects */}

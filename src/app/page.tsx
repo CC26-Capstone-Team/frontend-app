@@ -6,10 +6,14 @@ import CtaSection from "@/features/home/components/CtaSection";
 import ProblemSolution from "@/features/home/components/ProblemSolution";
 import Testimonials from "@/features/home/components/Testimonials";
 import HeroSection from "@/features/home/components/HeroSection";
+import Header from "@/components/shared/Header";
 
 export default function Page() {
   return (
     <div className="relative overflow-hidden bg-indigo-50 pb-24">
+      {/* ---- LAYER HEADER SECTION */}
+      <Header />
+
       {/* --- LAYER HERO SECTION ---   */}
       <HeroSection />
 
