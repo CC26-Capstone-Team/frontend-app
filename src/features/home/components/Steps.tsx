@@ -1,106 +1,125 @@
 "use client";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { User, UserPlus, BrainCircuit, Rocket } from "lucide-react";
 
-interface StepsProps {
-  step: number;
-  description: string;
-  title: string;
-  titleClassname: string;
-}
-
-const steps: StepsProps[] = [
+const steps = [
   {
     step: 1,
-    description: "Ceritakan skill, minat, dan pengalamanmu dalam form singkat",
     title: "Isi Profil Kamu",
-    titleClassname: "bg-indigo-100 text-indigo-700",
+    description: "Ceritakan skill, minat, dan pengalamanmu dalam form singkat.",
+    icon: User,
+    color: "text-indigo-600",
+    bgColor: "bg-indigo-100",
+    glowColor: "shadow-indigo-500/30",
   },
   {
     step: 2,
-    description:
-      "Buat akun gratis untuk menyimpan dan mengakses hasilmu kapan saja",
     title: "Login / Daftar",
-    titleClassname: "bg-fuchsia-100 text-fuchsia-700",
+    description: "Buat akun gratis untuk menyimpan dan mengakses hasilmu kapan saja.",
+    icon: UserPlus,
+    color: "text-fuchsia-600",
+    bgColor: "bg-fuchsia-100",
+    glowColor: "shadow-fuchsia-500/30",
   },
   {
     step: 3,
-    description:
-      "Model deep Learning memproses datamu dan menghasilkan rekomendasi personal",
     title: "AI Menganalisis",
-    titleClassname: "bg-purple-100 text-purple-700",
+    description: "Model Deep Learning memproses datamu untuk mencari kecocokan karir.",
+    icon: BrainCircuit,
+    color: "text-purple-600",
+    bgColor: "bg-purple-100",
+    glowColor: "shadow-purple-500/30",
   },
   {
     step: 4,
-    description:
-      "Dapatkan rekomendasi karir, kursus, dan lowongan pekerjaan untukmu",
     title: "Lihat Hasil",
-    titleClassname: "bg-emerald-100 text-emerald-700",
+    description: "Dapatkan roadmap karir, kursus, dan rekomendasi pekerjaan yang sesuai.",
+    icon: Rocket,
+    color: "text-emerald-600",
+    bgColor: "bg-emerald-100",
+    glowColor: "shadow-emerald-500/30",
   },
 ];
 
 export default function Step() {
   return (
-    <section id="steps" className="space-y-2 bg-indigo-50/50 py-10">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: 0.4 }}
-      >
-        <span className="block bg-linear-to-r from-indigo-600 to-emerald-600 bg-clip-text text-center text-sm font-medium text-transparent">
-          CARA KERJA
-        </span>
-        <h3 className="text-center text-2xl font-bold tracking-tight text-slate-900">
-          4 Langkah Menuju Karir yang Tepat
-        </h3>
-      </motion.div>
+    <section className="relative overflow-hidden bg-indigo-50 py-24">
+      {/* Background Ornamen halus agar menyatu dengan section atas/bawah */}
+      <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-30">
+        <div className="h-[500px] w-[500px] rounded-full bg-white blur-[100px]" />
+      </div>
 
-      <div className="mx-auto mt-10 grid max-w-7xl grid-cols-1 gap-6 px-4 md:grid-cols-2 lg:grid-cols-4">
-        {steps.map((step) => (
-          <motion.div
-            key={step.step}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5 + step.step * 0.2 }}
-            className="flex h-full w-full"
-          >
-            {/* Wrapper interaktif untuk efek pendaran (AWS-style glow) */}
-            <div className="group relative flex w-full flex-col">
-              {/* 1. Layer Pendaran (Glow) di belakang Card */}
-              <div className="absolute -inset-0.5 rounded-2xl bg-linear-to-r from-fuchsia-500 via-purple-500 to-indigo-500 opacity-0 blur-lg transition-opacity duration-500 group-hover:opacity-50" />
+      <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-8">
+        
+        {/* HEADER */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-12 text-center md:mb-16"
+        >
+          <span className="block bg-linear-to-r from-indigo-600 to-emerald-600 bg-clip-text text-sm font-bold tracking-widest text-transparent uppercase">
+            Cara Kerja
+          </span>
+          <h2 className="mt-2 text-3xl font-bold tracking-tight text-slate-900 md:text-4xl">
+            4 Langkah Menuju Karir yang Tepat
+          </h2>
+        </motion.div>
 
-              {/* 2. Komponen Card Shadcn UI */}
-              <Card className="relative z-10 flex h-full w-full flex-col items-center border-slate-200/60 bg-white/95 backdrop-blur-sm transition-all duration-300 group-hover:-translate-y-1 group-hover:border-transparent group-hover:shadow-2xl">
-                <CardHeader className="flex flex-col items-center gap-2 pb-4">
-                  {/* Lingkaran Angka */}
-                  <div
-                    className={`flex h-12 w-12 items-center justify-center rounded-full text-xl font-bold transition-transform duration-300 group-hover:scale-110 ${step.titleClassname}`}
-                  >
+        {/* TIMELINE CONTAINER */}
+        <div className="relative mt-8 md:mt-16">
+          
+          {/* Garis Latar (HANYA MUNCUL DI DESKTOP) */}
+          <div className="absolute left-[12.5%] right-[12.5%] top-7 hidden h-1 rounded-full bg-slate-200/60 md:block">
+            {/* Garis Progres Animasi (Desktop) */}
+            <motion.div
+              initial={{ width: 0 }}
+              whileInView={{ width: "100%" }}
+              transition={{ duration: 1.5, ease: "easeInOut", delay: 0.2 }}
+              viewport={{ once: true }}
+              className="h-full rounded-full bg-linear-to-r from-indigo-500 via-fuchsia-500 to-emerald-500"
+            />
+          </div>
+
+          {/* GRID KARTU LANGKAH */}
+          {/* gap-12 di mobile karena ikon akan melayang keluar kartu, butuh jarak ekstra */}
+          <div className="grid grid-cols-1 gap-12 pt-4 md:grid-cols-4 md:gap-8 md:pt-0">
+            {steps.map((step, index) => (
+              <motion.div
+                key={step.step}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.4 + index * 0.2 }}
+                className="relative flex flex-col items-center"
+              >
+                {/* LINGKARAN IKON */}
+                {/* -mb-7 di mobile menarik kartu di bawahnya naik agar ikon terlihat melayang di atas batas kartu */}
+                <div className="relative z-10 -mb-7 md:mb-6">
+                  <div className={`flex h-14 w-14 items-center justify-center rounded-2xl ${step.bgColor} shadow-lg ${step.glowColor} border-2 border-white transition-transform duration-300 hover:scale-110`}>
+                    <step.icon className={`h-6 w-6 ${step.color}`} />
+                  </div>
+                  {/* Badge Angka Kecil */}
+                  <div className={`absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white ${step.bgColor} ${step.color} text-xs font-black shadow-sm`}>
                     {step.step}
                   </div>
-                  <CardTitle className="mt-4 w-64 text-center text-base font-bold text-slate-900">
-                    {step.title}
-                  </CardTitle>
-                </CardHeader>
+                </div>
 
-                <CardContent className="text-center">
-                  <CardDescription className="text-sm text-slate-500">
+                {/* KARTU KONTEN (Glassmorphism) */}
+                {/* pt-10 di mobile untuk memberi ruang pada ikon yang menabrak dari atas */}
+                <div className="w-full rounded-2xl border border-white/60 bg-white/40 px-6 pb-6 pt-10 text-center shadow-sm backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/60 hover:shadow-lg md:p-6">
+                  <h3 className="mb-2 text-lg font-bold text-slate-900">
+                    {step.title}
+                  </h3>
+                  <p className="text-sm leading-relaxed text-slate-600">
                     {step.description}
-                  </CardDescription>
-                </CardContent>
-              </Card>
-            </div>
-          </motion.div>
-        ))}
+                  </p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
