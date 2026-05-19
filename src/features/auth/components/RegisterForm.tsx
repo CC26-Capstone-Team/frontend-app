@@ -4,21 +4,25 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle, ArrowRight, CheckCircle2 } from "lucide-react";
-import { useRegister } from "@/hooks/use-auth";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/providers/auth-provider";
 
 export default function RegisterForm() {
   const router = useRouter();
-  const registerMutation = useRegister();
+
+  const { register } = useAuth();
 
   // State
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  
+  const [isPending, setIsPending] = useState(false);
+
   const [errors, setErrors] = useState<{
+    name?: string;
     email?: string;
     password?: string;
     confirmPassword?: string;
@@ -30,6 +34,11 @@ export default function RegisterForm() {
   const validateForm = () => {
     const tempErrors: typeof errors = {};
     let isValid = true;
+
+    if (!name) {
+      tempErrors.name = "Nama wajib diisi";
+      isValid = false;
+    }
 
     if (!email) {
       tempErrors.email = "Email wajib diisi";
@@ -65,24 +74,22 @@ export default function RegisterForm() {
 
     if (!validateForm()) return;
 
-    registerMutation.mutate(
-      { email, password },
-      {
-        onSuccess: () => {
-          setIsSuccess(true);
-          setTimeout(() => {
-            router.push("/dashboard");
-            router.refresh();
-          }, 1500);
-        },
-        onError: (err: any) => {
-          const errorMessage =
-            err.response?.data?.message ||
-            "Gagal mendaftar. Email tersebut mungkin sudah digunakan.";
-          setGeneralError(errorMessage);
-        },
-      }
-    );
+    try {
+      setIsPending(true);
+      await register(name, email, password);
+      setIsSuccess(true);
+      setTimeout(() => {
+        router.push("/dashboard");
+        router.refresh();
+      }, 1500);
+    } catch (err: any) {
+      const errorMessage =
+        err.response?.data?.message ||
+        "Gagal mendaftar. Email tersebut mungkin sudah digunakan.";
+      setGeneralError(errorMessage);
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return (
@@ -117,6 +124,31 @@ export default function RegisterForm() {
       )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Name Input */}
+        <div className="space-y-1.5">
+          <label htmlFor="name" className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
+            Nama Lengkap
+          </label>
+          <input
+            id="name"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Nama lengkap Anda"
+            disabled={isSuccess}
+            className={`w-full rounded-lg border bg-white py-2.5 px-4 text-sm outline-none transition-all placeholder:text-slate-400 ${
+              errors.name
+                ? "border-red-400 focus:border-red-500 focus:ring-3 focus:ring-red-500/10"
+                : "border-slate-200 focus:border-indigo-600 focus:ring-3 focus:ring-indigo-600/10"
+            }`}
+          />
+          {errors.name && (
+            <p className="text-xs font-medium text-red-500 flex items-center gap-1 animate-in fade-in duration-200">
+              <AlertCircle className="size-3" /> {errors.name}
+            </p>
+          )}
+        </div>
+
         {/* Email Input */}
         <div className="space-y-1.5">
           <label htmlFor="email" className="text-xs font-semibold text-slate-600 uppercase tracking-wider">
@@ -226,10 +258,10 @@ export default function RegisterForm() {
         {/* Submit Button */}
         <Button
           type="submit"
-          disabled={registerMutation.isPending || isSuccess}
+          disabled={isPending || isSuccess}
           className="w-full justify-center bg-indigo-600 hover:bg-indigo-700 py-5.5 text-sm font-semibold rounded-lg shadow-lg shadow-indigo-600/15 hover:shadow-indigo-600/25 transition-all text-white cursor-pointer disabled:opacity-50"
         >
-          {registerMutation.isPending ? (
+          {isPending ? (
             <>
               <Loader2 className="mr-2 size-4.5 animate-spin" />
               Mendaftarkan Akun...
