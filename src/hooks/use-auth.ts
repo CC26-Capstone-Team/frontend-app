@@ -2,7 +2,7 @@
 
 import { apiClient } from "@/lib/api";
 import { useMutation } from "@tanstack/react-query";
-import { setCookie, deleteCookie } from "cookies-next";
+import Cookies from "js-cookie";
 
 // Interfaces
 interface AuthResponse {
@@ -30,7 +30,7 @@ export const useLogin = () => {
     },
     onSuccess: (data) => {
       // Simpan kuki token selama 7 hari
-      setCookie("token", data.user.token, { maxAge: 60 * 60 * 24 * 7 });
+      Cookies.set("token", data.user.token, { expires: 7, path: "/" });
     },
   });
 };
@@ -43,7 +43,7 @@ export const useRegister = () => {
     },
     onSuccess: (data) => {
       // Simpan kuki token selama 7 hari
-      setCookie("token", data.user.token, { maxAge: 60 * 60 * 24 * 7 });
+      Cookies.set("token", data.user.token, { expires: 7, path: "/" });
     },
   });
 };
@@ -54,12 +54,12 @@ export const useLogout = () => {
       await apiClient.post("/auth/logout");
     },
     onSuccess: () => {
-      deleteCookie("token");
+      Cookies.remove("token", { path: "/" });
       window.location.href = "/login";
     },
     onError: () => {
       // Jika gagal tetap hapus token lokal demi keamanan
-      deleteCookie("token");
+      Cookies.remove("token", { path: "/" });
       window.location.href = "/login";
     },
   });

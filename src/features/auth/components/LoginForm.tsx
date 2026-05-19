@@ -4,14 +4,15 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Mail, Lock, Eye, EyeOff, Loader2, AlertCircle, ArrowRight } from "lucide-react";
-import { useLogin } from "@/hooks/use-auth";
+import { useAuth } from "@/providers/auth-provider";
 import { Button } from "@/components/ui/button";
 
 export default function LoginForm() {
   const router = useRouter();
-  const loginMutation = useLogin();
+  const { login } = useAuth();
 
   // State
+  const [isPending, setIsPending] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -49,21 +50,19 @@ export default function LoginForm() {
 
     if (!validateForm()) return;
 
-    loginMutation.mutate(
-      { email, password },
-      {
-        onSuccess: () => {
-          router.push("/dashboard");
-          router.refresh();
-        },
-        onError: (err: any) => {
-          const errorMessage =
-            err.response?.data?.message ||
-            "Gagal masuk. Silakan periksa kembali email dan kata sandi Anda.";
-          setGeneralError(errorMessage);
-        },
-      }
-    );
+    setIsPending(true);
+    try {
+      await login(email, password);
+      router.push("/dashboard");
+      router.refresh();
+    } catch (err: any) {
+      const errorMessage =
+        err.response?.data?.message ||
+        "Gagal masuk. Silakan periksa kembali email dan kata sandi Anda.";
+      setGeneralError(errorMessage);
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return (
@@ -164,10 +163,10 @@ export default function LoginForm() {
         {/* Submit Button */}
         <Button
           type="submit"
-          disabled={loginMutation.isPending}
+          disabled={isPending}
           className="w-full justify-center bg-indigo-600 hover:bg-indigo-700 py-5.5 text-sm font-semibold rounded-lg shadow-lg shadow-indigo-600/15 hover:shadow-indigo-600/25 transition-all text-white cursor-pointer disabled:opacity-50"
         >
-          {loginMutation.isPending ? (
+          {isPending ? (
             <>
               <Loader2 className="mr-2 size-4.5 animate-spin" />
               Menghubungkan...

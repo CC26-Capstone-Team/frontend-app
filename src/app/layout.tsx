@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Plus_Jakarta_Sans, Syne } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/providers/query-providers";
+import { AuthProvider } from "@/providers/auth-provider";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-sans",
@@ -31,9 +32,11 @@ export default function RootLayout({
       lang="en"
       className={`${jakarta.variable} ${syne.variable} h-full antialiased`}
     >
-      <body>
+      <body suppressHydrationWarning>
         <QueryProvider>
-          <main>{children}</main>
+          <AuthProvider>
+            <main>{children}</main>
+          </AuthProvider>
         </QueryProvider>
       </body>
     </html>

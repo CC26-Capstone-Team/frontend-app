@@ -1,5 +1,6 @@
 "use client";
 
+import MainHeader from "@/components/shared/MainHeader";
 import Sidebar from "@/components/shared/Sidebar";
 import Header from "@/features/home/components/Header";
 import { cn } from "@/lib/utils";
@@ -29,7 +30,7 @@ export default function MainLayout({
   return (
     // Mengubah bg-indigo-50 menjadi bg-slate-50 agar isi dashboard lebih bersih
     <div className="min-h-screen bg-slate-50 font-sans">
-      <Header />
+      <MainHeader sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
       <div className="flex min-h-screen pt-18">
         {/* Menggunakan pt-[72px] untuk memastikan konten tidak tertutup Header yang sticky (asumsi tinggi header ~72px) */}
