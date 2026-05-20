@@ -1,7 +1,6 @@
 import { ChevronDown, LogOut, Menu, User, X } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import Image from "next/image";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -27,7 +26,7 @@ export default function MainHeader({
 
   const getUserDisplayName = () => {
     if (isLoading) return "Loading...";
-    if (user?.name) return user.name;
+    if (user?.username) return user.username;
     return "User";
   };
 

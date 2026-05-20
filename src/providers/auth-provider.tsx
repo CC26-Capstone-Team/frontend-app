@@ -11,7 +11,7 @@ interface Skill {
 interface User {
   id: string;
   user_id: string;
-  name: string;
+  username: string;
   email: string;
   major: string;
   gpa: string;
@@ -33,31 +33,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const fetchProfile = async () => {
+    const res = await apiClient.get<{ profile: User }>("/user/profile");
+    setUser(res.data.profile);
+  };
+
   useEffect(() => {
-    // Karena token ada di HttpOnly cookie, kita tidak bisa membacanya di JS.
-    // Langsung saja coba tembak endpoint profile. Jika gagal (401), interceptor
-    // akan mengarahkan ke halaman login.
-    apiClient
-      .get<{ user: User }>("/user/profile")
-      .then((res) => setUser(res.data.user))
-      .catch(() => setUser(null))
-      .finally(() => setIsLoading(false));
+    fetchProfile().catch(() => setUser(null)).finally(() => setIsLoading(false));
   }, []);
 
   const login = async (email: string, password: string) => {
-    const res = await apiClient.post<{ user: User & { token?: string } }>(
-      "/auth/login",
-      { email, password }
-    );
-    setUser(res.data.user);
+    await apiClient.post("/auth/login", { email, password });
+    await fetchProfile();
   };
 
   const register = async (name: string, email: string, password: string) => {
-    const res = await apiClient.post<{ user: User & { token?: string } }>(
-      "/auth/register",
-      { name, email, password }
-    );
-    setUser(res.data.user);
+    await apiClient.post("/auth/register", { name, email, password });
+    await fetchProfile();
   };
 
   const logout = async () => {
