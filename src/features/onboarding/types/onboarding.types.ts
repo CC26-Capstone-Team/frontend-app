@@ -4,8 +4,8 @@ export interface Skill {
 }
 
 export interface OnboardingPayload {
-  education_leve: string;
+  education_level: string;
   major: string;
   gpa: number;
-  skill_id: string[];
+  skill_ids: string[];
 }

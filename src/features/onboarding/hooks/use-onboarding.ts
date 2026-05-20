@@ -12,5 +12,6 @@ export const useSkills = () => {
 export const useSubmitOnboarding = () => {
   return useMutation<void, Error, OnboardingPayload>({
     mutationFn: submitOnboarding,
+    mutationKey: ["onboarding"],
   });
 };

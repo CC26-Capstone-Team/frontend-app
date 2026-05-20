@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, Syne } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/providers/query-providers";
 import { AuthProvider } from "@/providers/auth-provider";
+import { Toaster } from "sonner";
 
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
         <QueryProvider>
           <AuthProvider>
             <main>{children}</main>
+            <Toaster position="top-center" richColors />
           </AuthProvider>
         </QueryProvider>
       </body>

@@ -2,10 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("token");
+  const isOnboarded = request.cookies.get("is_onboarded")?.value === "true";
   const { pathname } = request.nextUrl;
 
   if (!token && pathname.startsWith("/dashboard")) {
     return NextResponse.redirect(new URL("/login", request.url));
+  }
+
+  if (token && !isOnboarded && pathname.startsWith("/dashboard")) {
+    return NextResponse.redirect(new URL("/onboarding", request.url));
   }
 
   if (
@@ -15,9 +20,20 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
+  if (token && isOnboarded && pathname.startsWith("/onboarding")) {
+    return NextResponse.redirect(new URL("/dashboard", request.url));
+  }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/", "/login", "/register", "/dashboard", "/dashboard/:path"],
+  matcher: [
+    "/",
+    "/login",
+    "/register",
+    "/dashboard",
+    "/dashboard/:path",
+    "/onboarding",
+  ],
 };
