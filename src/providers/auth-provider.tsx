@@ -1,6 +1,7 @@
 "use client";
 
 import { apiClient } from "@/lib/api";
+import { setCookie } from "cookies-next";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface Skill {
@@ -17,6 +18,7 @@ interface User {
   gpa: string;
   updated_at: string;
   skills: Skill[];
+  is_onboarded: boolean;
 }
 
 interface AuthContextType {
@@ -39,16 +41,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    fetchProfile().catch(() => setUser(null)).finally(() => setIsLoading(false));
+    fetchProfile()
+      .catch(() => setUser(null))
+      .finally(() => setIsLoading(false));
   }, []);
 
   const login = async (email: string, password: string) => {
-    await apiClient.post("/auth/login", { email, password });
+    const res = await apiClient.post<{ user: { is_onboarded: boolean } }>(
+      "/auth/login",
+      { email, password }
+    );
+    setCookie("is_onboarded", String(res.data.user.is_onboarded));
     await fetchProfile();
   };
 
   const register = async (name: string, email: string, password: string) => {
-    await apiClient.post("/auth/register", { name, email, password });
+    const res = await apiClient.post<{ user: { is_onboarded: boolean } }>(
+      "/auth/register",
+      { name, email, password }
+    );
+    setCookie("is_onboarded", String(res.data.user.is_onboarded));
     await fetchProfile();
   };
 
