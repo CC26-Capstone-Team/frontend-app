@@ -37,15 +37,14 @@ export default function MainLayout({
   return (
     // Memindahkan background utama ke sini agar menyatu ke seluruh layout
     <div className="relative min-h-screen overflow-hidden bg-indigo-50 font-sans">
-      
       {/* Decorative blobs dipindah ke Layout */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -top-24 -right-24 z-0 h-[360px] w-[360px] rounded-full bg-violet-400/20 blur-[100px]"
+        className="pointer-events-none absolute -top-24 -right-24 z-0 h-90 w-90 rounded-full bg-violet-400/20 blur-[100px]"
       />
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -bottom-16 -left-16 z-0 h-[300px] w-[300px] rounded-full bg-emerald-400/20 blur-[100px]"
+        className="pointer-events-none absolute -bottom-16 -left-16 z-0 h-75 w-75 rounded-full bg-emerald-400/20 blur-[100px]"
       />
 
       {/* Wrapper konten dengan z-index agar ada di atas blobs */}
