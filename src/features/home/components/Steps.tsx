@@ -50,7 +50,7 @@ export default function Step() {
     <section id="steps" className="relative overflow-hidden bg-indigo-50 py-24">
       {/* Background Ornamen halus agar menyatu dengan section atas/bawah */}
       <div className="pointer-events-none absolute inset-0 z-0 flex items-center justify-center opacity-30">
-        <div className="h-[500px] w-[500px] rounded-full bg-white blur-[100px]" />
+        <div className="h-125 w-125 rounded-full bg-white blur-[100px]" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 md:px-8">

@@ -4,26 +4,34 @@ import MainHeader from "@/components/shared/MainHeader";
 import Sidebar from "@/components/shared/Sidebar";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return window.innerWidth >= 768;
+  });
   const pathname = usePathname();
 
+  const prevPathname = useRef(pathname);
+
   useEffect(() => {
-    if (window.innerWidth < 768) {
-      setSidebarOpen(false);
-    }
+    const handleResize = () => {
+      if (window.innerWidth < 768) setSidebarOpen(false);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
-    if (window.innerWidth < 768) {
-      setSidebarOpen(false);
+    if (pathname !== prevPathname.current && window.innerWidth < 768) {
+      setTimeout(() => setSidebarOpen(false), 0);
     }
+    prevPathname.current = pathname;
   }, [pathname]);
 
   return (

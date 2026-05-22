@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import { type LucideProps } from "lucide-react";
 import {
   BookCopy,
   Briefcase,
@@ -12,7 +13,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 
 interface FeatureProps {
-  icon: React.ComponentType<any>;
+  icon: React.ComponentType<LucideProps>;
   title: string;
   description: string;
   colorClass: string;
@@ -110,7 +111,7 @@ export default function Features() {
       x: 0,
       opacity: 1,
       transition: {
-        x: { type: "spring", stiffness: 300, damping: 30 },
+        x: { type: "spring" as const, stiffness: 300, damping: 30 },
         opacity: { duration: 0.2 },
       },
     },
@@ -118,7 +119,7 @@ export default function Features() {
       x: dir > 0 ? "-100%" : "100%",
       opacity: 0,
       transition: {
-        x: { type: "spring", stiffness: 300, damping: 30 },
+        x: { type: "spring" as const, stiffness: 300, damping: 30 },
         opacity: { duration: 0.2 },
       },
     }),
@@ -220,7 +221,7 @@ export default function Features() {
           </div>
 
           {/* SISI KANAN: MONITOR KACA PREVIEW (SWIPER EFFECT CONTENT) */}
-          <div className="relative flex h-[380px] w-full flex-col overflow-hidden md:h-[420px]">
+          <div className="relative flex h-95 w-full flex-col overflow-hidden md:h-105">
             {/* Bingkai Utama Layar Kaca */}
             <div className="relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-white/60 bg-white/40 shadow-2xl shadow-indigo-900/5 backdrop-blur-xl">
               {/* Top Window Bar */}
@@ -447,7 +448,7 @@ export default function Features() {
                           ].map((time, i) => (
                             <div key={i} className="relative">
                               <div
-                                className={`absolute top-1.5 -left-[25px] h-2.5 w-2.5 rounded-full border-2 border-white ring-4 ${time.active ? "bg-emerald-500 ring-emerald-500/20" : "bg-slate-300 ring-slate-300/10"}`}
+                                className={`absolute top-1.5 -left-6.25 h-2.5 w-2.5 rounded-full border-2 border-white ring-4 ${time.active ? "bg-emerald-500 ring-emerald-500/20" : "bg-slate-300 ring-slate-300/10"}`}
                               />
                               <div>
                                 <span className="text-[10px] font-bold text-slate-400">
