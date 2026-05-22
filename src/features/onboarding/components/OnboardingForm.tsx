@@ -7,7 +7,6 @@ import { useSubmitOnboarding } from "../hooks/use-onboarding";
 import StepAcademic from "./StepAcademic";
 import StepSkills from "./StepSkill";
 import { setCookie } from "cookies-next";
-import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 const initialFormData: OnboardingPayload = {
@@ -21,8 +20,6 @@ export default function OnboardingForm() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<OnboardingPayload>(initialFormData);
   const { mutate, isPending } = useSubmitOnboarding();
-
-  const router = useRouter();
 
   const handleNextStep = (data: Omit<OnboardingPayload, "skill_ids">) => {
     setFormData((prev) => ({ ...prev, ...data }));

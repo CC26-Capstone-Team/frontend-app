@@ -69,7 +69,7 @@ export default function ProblemSolution() {
           </motion.div>
 
           {/* 2. SVG ANIMATED CONNECTOR LINE (Tangled to Straight) */}
-          <div className="relative my-4 flex h-[250px] w-full max-w-[200px] flex-col items-center justify-center">
+          <div className="relative my-4 flex h-62.5 w-full max-w-50 flex-col items-center justify-center">
             <svg
               viewBox="0 0 100 250"
               className="absolute inset-0 h-full w-full overflow-visible"
@@ -118,7 +118,7 @@ export default function ProblemSolution() {
             </svg>
 
             {/* Target Dot di ujung bawah garis */}
-            <div className="absolute bottom-[-10px] z-10 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-emerald-500 shadow-md ring-4 ring-emerald-500/20" />
+            <div className="absolute -bottom-2.5 z-10 flex h-5 w-5 items-center justify-center rounded-full border-2 border-white bg-emerald-500 shadow-md ring-4 ring-emerald-500/20" />
           </div>
 
           {/* 3. NODE SOLUSI (The "After") */}

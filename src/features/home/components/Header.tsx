@@ -119,7 +119,7 @@ export default function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="absolute inset-x-0 top-[72px] flex flex-col border-b border-slate-200 bg-white px-4 py-6 shadow-xl md:hidden"
+            className="absolute inset-x-0 top-18 flex flex-col border-b border-slate-200 bg-white px-4 py-6 shadow-xl md:hidden"
           >
             <div className="mb-6 flex flex-col gap-4 px-2">
               <a
