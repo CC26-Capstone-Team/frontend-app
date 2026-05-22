@@ -6,7 +6,7 @@ export const apiClient = axios.create({
 });
 
 apiClient.interceptors.request.use((config) => {
-  // Karena cookie diatur oleh backend (HttpOnly), 
+  // Karena cookie diatur oleh backend (HttpOnly),
   // browser akan mengirimkannya secara otomatis berkat withCredentials: true.
   // Tidak perlu lagi membaca dari js-cookie / cookies-next.
   return config;
@@ -17,7 +17,8 @@ apiClient.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       if (typeof window !== "undefined") {
-        if (window.location.pathname !== "/") {
+        const publicPaths = ["/login", "/register", "/"];
+        if (!publicPaths.includes(window.location.pathname)) {
           window.location.href = "/";
         }
       }
