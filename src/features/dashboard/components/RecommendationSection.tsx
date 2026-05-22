@@ -13,6 +13,7 @@ import {
   Server,
 } from "lucide-react";
 import RecommendationCard from "./RecommendationCard";
+import { RecommendationProps } from "../types/dashboard.types";
 
 // Mapping Icon Lucide pengganti Emoji
 const ICONS = [
@@ -32,27 +33,6 @@ const DUMMY_SKILLS = [
   ["Laravel", "PHP", "MySQL"],
   ["Linux", "Docker", "Vim"],
 ];
-
-interface Career {
-  id: string;
-  title: string;
-  description: string | null;
-  industry: string | null;
-  category?: string | null; // Menambahkan opsional agar sesuai implementasi
-}
-
-interface RecommendationHistory {
-  id: string;
-  session_id: string;
-  career_id: string;
-  match_score: string;
-  career: Career;
-}
-
-interface RecommendationProps {
-  recommendation: RecommendationHistory[];
-  isLoading: boolean;
-}
 
 export default function RecommendationSection({
   recommendation,
@@ -136,9 +116,7 @@ export default function RecommendationSection({
                 <RecommendationCard
                   title={rec.career.title}
                   match={score}
-                  subtitle={
-                    rec.career.category ?? rec.career.industry ?? undefined
-                  }
+                  subtitle={rec.career.industry ?? undefined}
                   icon={ICONS[index % ICONS.length]}
                   skills={DUMMY_SKILLS[index % DUMMY_SKILLS.length]}
                   isTopMatch={isTopMatch}

@@ -1,14 +1,5 @@
-import { LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-interface StatsCardProps {
-  title: string;
-  value: number;
-  description: string;
-  icon: LucideIcon;
-  unit?: string;
-  variant?: "indigo" | "emerald" | "fuchsia";
-}
+import { StatsCardProps } from "../types/dashboard.types";
 
 const variantStyles = {
   indigo: {
@@ -46,7 +37,7 @@ export default function StatsCard({
       {/* Accent top bar */}
       <div
         className={cn(
-          "absolute inset-x-0 top-0 h-[3px] rounded-t-2xl bg-gradient-to-r",
+          "absolute inset-x-0 top-0 h-0.75 rounded-t-2xl bg-linear-to-r",
           styles.topBar
         )}
       />
@@ -54,7 +45,7 @@ export default function StatsCard({
       {/* Icon (Di kiri pada mobile, di atas pada desktop) */}
       <div
         className={cn(
-          "mr-4 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl sm:mb-4 sm:mr-0 sm:h-11 sm:w-11",
+          "mr-4 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl sm:mr-0 sm:mb-4 sm:h-11 sm:w-11",
           styles.iconBg
         )}
       >
@@ -65,14 +56,14 @@ export default function StatsCard({
       <div className="flex flex-1 items-center justify-between sm:block">
         {/* Label & Description */}
         <div className="min-w-0 pr-3 sm:pr-0">
-          <p className="mb-0.5 text-[10px] font-semibold uppercase tracking-widest text-slate-400 sm:mb-1.5">
+          <p className="mb-0.5 text-[10px] font-semibold tracking-widest text-slate-400 uppercase sm:mb-1.5">
             {title}
           </p>
 
           {/* Value untuk Desktop (disembunyikan di mobile) */}
           <p
             className={cn(
-              "hidden text-3xl font-extrabold leading-none sm:block",
+              "hidden text-3xl leading-none font-extrabold sm:block",
               styles.valueColor
             )}
           >
@@ -93,7 +84,7 @@ export default function StatsCard({
         <div className="text-right sm:hidden">
           <p
             className={cn(
-              "text-xl font-extrabold leading-none",
+              "text-xl leading-none font-extrabold",
               styles.valueColor
             )}
           >

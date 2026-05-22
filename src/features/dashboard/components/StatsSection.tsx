@@ -1,17 +1,7 @@
+import { StatsSectionProps } from "../types/dashboard.types";
 import StatsCard from "./StatsCard";
 import { Compass, Target, TrendingUp } from "lucide-react";
 
-interface RecommendationHistory {
-  id: string;
-  session_id: string;
-  career_id: string;
-  match_score: string;
-  career: { id: string; title: string; description: string | null; industry: string | null };
-}
-
-interface StatsSectionProps {
-  recommendation: RecommendationHistory[];
-}
 
 export default function StatsSection({ recommendation = [] }: StatsSectionProps) {
   const topMatch = recommendation.reduce(

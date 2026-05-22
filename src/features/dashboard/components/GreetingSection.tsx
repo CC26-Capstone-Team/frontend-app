@@ -1,46 +1,35 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+import { motion, type Variants, type Easing } from "framer-motion";
 import { RefreshCw } from "lucide-react";
-
-interface User {
-  id: string;
-  user_id: string;
-  username: string;
-  email: string;
-  major: string;
-  gpa: string;
-  updated_at: string;
-  is_onboarded: boolean;
-}
-
-interface GreetingSectionProps {
-  user: User;
-}
+import { GreetingSectionProps } from "../types/dashboard.types";
 
 // Variants untuk efek muncul bergantian (stagger)
-const containerVariants = {
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.15, // Jeda antar elemen
+      staggerChildren: 0.15,
       delayChildren: 0.1,
     },
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 15 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { duration: 0.5, ease: "easeOut" } 
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut" as Easing },
   },
 };
 
-export default function GreetingSection({ user }: GreetingSectionProps) {
+export default function GreetingSection({
+  user,
+  onReanalyze,
+}: GreetingSectionProps) {
   return (
     <motion.div
       variants={containerVariants}
@@ -68,7 +57,7 @@ export default function GreetingSection({ user }: GreetingSectionProps) {
         <motion.div variants={itemVariants}>
           <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl">
             Selamat datang,{" "}
-            <span className="bg-gradient-to-r from-indigo-600 via-purple-500 to-fuchsia-500 bg-clip-text text-transparent">
+            <span className="bg-linear-to-r from-indigo-600 via-purple-500 to-fuchsia-500 bg-clip-text text-transparent">
               {user?.username}
             </span>{" "}
             {/* Animasi tangan melambai looping */}
@@ -88,8 +77,8 @@ export default function GreetingSection({ user }: GreetingSectionProps) {
         </motion.div>
 
         {/* Subtitle */}
-        <motion.p 
-          variants={itemVariants} 
+        <motion.p
+          variants={itemVariants}
           className="text-sm font-medium text-slate-500 sm:text-base"
         >
           Berikut rekomendasi jalur karir berdasarkan profil teknismu.
@@ -100,11 +89,12 @@ export default function GreetingSection({ user }: GreetingSectionProps) {
       <motion.div variants={itemVariants}>
         <Button
           variant="outline"
+          onClick={onReanalyze} // Pasangkan prop di sini
           className="group relative overflow-hidden rounded-2xl border border-indigo-200/60 bg-white/70 px-6 py-6 text-sm font-bold text-indigo-600 shadow-sm shadow-indigo-100 backdrop-blur-md transition-all hover:border-indigo-300 hover:bg-white hover:shadow-md hover:shadow-indigo-200/50"
         >
           {/* Efek kilau (shine) yang lewat saat di-hover */}
-          <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-indigo-100/40 to-transparent transition-transform duration-700 ease-in-out group-hover:translate-x-full" />
-          
+          <div className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-indigo-100/40 to-transparent transition-transform duration-700 ease-in-out group-hover:translate-x-full" />
+
           <RefreshCw className="mr-2 h-4 w-4 transition-transform duration-500 group-hover:rotate-180" />
           <span className="relative z-10">Analisis Ulang</span>
         </Button>

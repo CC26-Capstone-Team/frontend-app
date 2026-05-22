@@ -1,17 +1,8 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { LucideIcon } from "lucide-react";
 import { motion } from "framer-motion";
-
-interface RecommendationCardProps {
-  title: string;
-  match: number;
-  subtitle?: string;
-  icon: LucideIcon;
-  skills?: string[];
-  isTopMatch?: boolean;
-}
+import { RecommendationCardProps } from "../types/dashboard.types";
 
 function getMatchStyle(match: number) {
   if (match >= 85) {
@@ -50,14 +41,14 @@ export default function RecommendationCard({
       className={cn(
         "group relative rounded-2xl transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg",
         isTopMatch
-          ? "p-[2px] shadow-fuchsia-200/50" // Padding sedikit lebih besar untuk ruang border
+          ? "p-0.5 shadow-fuchsia-200/50" // Padding sedikit lebih besar untuk ruang border
           : "border border-white/80 bg-white/60 shadow-sm shadow-indigo-100/30 hover:bg-white/75 hover:shadow-indigo-200/40"
       )}
     >
       {/* === ANIMATED GRADIENT BORDER (Hanya muncul jika isTopMatch) === */}
       {isTopMatch && (
         <motion.div
-          className="absolute inset-0 z-0 rounded-2xl bg-gradient-to-r from-fuchsia-500 via-purple-500 to-emerald-500"
+          className="absolute inset-0 z-0 rounded-2xl bg-linear-to-r from-fuchsia-500 via-purple-500 to-emerald-500"
           initial={{ backgroundPosition: "0% 50%" }}
           animate={{ backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"] }}
           transition={{
@@ -91,7 +82,7 @@ export default function RecommendationCard({
           <div className="flex items-center gap-2">
             <p className="truncate text-sm font-bold text-slate-900">{title}</p>
             {isTopMatch && (
-              <span className="shrink-0 rounded-full bg-gradient-to-r from-fuchsia-500 via-purple-500 to-emerald-500 px-2 py-0.5 text-[9px] font-bold tracking-wide text-white shadow-sm uppercase">
+              <span className="shrink-0 rounded-full bg-linear-to-r from-fuchsia-500 via-purple-500 to-emerald-500 px-2 py-0.5 text-[9px] font-bold tracking-wide text-white uppercase shadow-sm">
                 Top Match
               </span>
             )}
@@ -118,7 +109,7 @@ export default function RecommendationCard({
           {/* Progress bar */}
           <div className="mt-3 h-1 w-full overflow-hidden rounded-full bg-slate-100">
             <div
-              className={cn("h-full rounded-full bg-gradient-to-r", styles.bar)}
+              className={cn("h-full rounded-full bg-linear-to-r", styles.bar)}
               style={{ width: `${match}%` }}
             />
           </div>
@@ -127,7 +118,7 @@ export default function RecommendationCard({
         {/* Match score */}
         <div className="shrink-0 text-right">
           <p
-            className={cn("text-xl font-extrabold leading-none", styles.value)}
+            className={cn("text-xl leading-none font-extrabold", styles.value)}
           >
             {match}%
           </p>
