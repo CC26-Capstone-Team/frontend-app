@@ -20,10 +20,11 @@ export const useRecommendationHistory = () => {
   });
 };
 
-export const useCourseRecommendation = () => {
-  return useMutation({
-    mutationKey: ["course-recommendation"],
-    mutationFn: generateCourseRecommendation,
+export const useCourseRecommendation = (targetCareer: string) => {
+  return useQuery({
+    queryKey: ["course-recommendation", targetCareer],
+    queryFn: () => generateCourseRecommendation(targetCareer),
+    enabled: !!targetCareer,
   });
 };
 
