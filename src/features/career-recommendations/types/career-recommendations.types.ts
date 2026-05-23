@@ -48,3 +48,26 @@ export interface JobOpening {
   salary: string | null;
   posted_at: string;
 }
+
+export interface JobRecommendationItem {
+  id: string;
+  title: string;
+  company_name: string;
+  location: string;
+  via: string;
+  description: string;
+  apply_link: string;
+  match_score: number;
+  match_reason: string;
+}
+
+export interface JobRecommendationResponse {
+  id: string;
+  user_id: string;
+  career_id: string;
+  analysis: string;
+  source: string;
+  last_fetched_at: string;
+  jobs: JobRecommendationItem[];
+}
+

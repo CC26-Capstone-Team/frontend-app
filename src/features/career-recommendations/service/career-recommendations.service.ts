@@ -2,7 +2,7 @@ import { apiClient } from "@/lib/api";
 import type {
   CourseRecommendation,
   RecommendationSession,
-  JobOpening,
+  JobRecommendationResponse,
 } from "../types/career-recommendations.types";
 
 export const getLatestSession =
@@ -25,19 +25,26 @@ export const getRecommendationHistory = async (): Promise<
 export const generateCourseRecommendation = async (
   targetCareer: string
 ): Promise<CourseRecommendation> => {
-  const res = await apiClient.post<{
+  const res = await apiClient.get<{
     course_recommendation: CourseRecommendation;
-  }>("/recommendations/course", {
-    target_career: targetCareer,
-  });
+  }>(`/recommendations/course/${encodeURIComponent(targetCareer)}`);
   return res.data.course_recommendation;
 };
 
 export const getJobRecommendations = async (
-  careerId: string
-): Promise<JobOpening[]> => {
+  targetCareer: string
+): Promise<JobRecommendationResponse> => {
   const res = await apiClient.get<{
-    jobs: JobOpening[];
-  }>(`/jobs/recommendation/${careerId}`);
-  return res.data.jobs;
+    job_recommendation: JobRecommendationResponse;
+  }>(`/recommendations/jobs/${encodeURIComponent(targetCareer)}`);
+  return res.data.job_recommendation;
+};
+
+export const refreshJobRecommendations = async (
+  targetCareer: string
+): Promise<JobRecommendationResponse> => {
+  const res = await apiClient.get<{
+    job_recommendation: JobRecommendationResponse;
+  }>(`/recommendations/jobs/${encodeURIComponent(targetCareer)}?force=true`);
+  return res.data.job_recommendation;
 };

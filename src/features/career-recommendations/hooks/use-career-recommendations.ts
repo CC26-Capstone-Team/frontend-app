@@ -1,9 +1,10 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   generateCourseRecommendation,
   getLatestSession,
   getRecommendationHistory,
   getJobRecommendations,
+  refreshJobRecommendations,
 } from "../service/career-recommendations.service";
 
 export const useLatestSession = () => {
@@ -20,17 +21,28 @@ export const useRecommendationHistory = () => {
   });
 };
 
-export const useCourseRecommendation = () => {
-  return useMutation({
-    mutationKey: ["course-recommendation"],
-    mutationFn: generateCourseRecommendation,
+export const useCourseRecommendation = (targetCareer: string) => {
+  return useQuery({
+    queryKey: ["course-recommendation", targetCareer],
+    queryFn: () => generateCourseRecommendation(targetCareer),
+    enabled: false,
   });
 };
 
-export const useJobRecommendations = (careerId: string) => {
+export const useJobRecommendations = (targetCareer: string) => {
   return useQuery({
-    queryKey: ["job-recommendations", careerId],
-    queryFn: () => getJobRecommendations(careerId),
-    enabled: !!careerId,
+    queryKey: ["job-recommendations", targetCareer],
+    queryFn: () => getJobRecommendations(targetCareer),
+    enabled: !!targetCareer,
+  });
+};
+
+export const useRefreshJobRecommendations = (targetCareer: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => refreshJobRecommendations(targetCareer),
+    onSuccess: (newJobs) => {
+      queryClient.setQueryData(["job-recommendations", targetCareer], newJobs);
+    },
   });
 };

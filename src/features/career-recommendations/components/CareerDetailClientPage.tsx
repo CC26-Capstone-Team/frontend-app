@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowLeft,
   Loader2,
@@ -22,12 +22,20 @@ import {
   Building2,
   FileText,
   SearchX,
+  GraduationCap,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useLatestSession } from "../hooks/use-career-recommendations";
 import MatchScoreRing from "./MatchScoreRing";
 import CourseSection from "./CourseSection";
 import JobSection from "./JobSection";
+
+type TabId = "courses" | "jobs";
+
+const TABS: { id: TabId; label: string; icon: LucideIcon }[] = [
+  { id: "courses", label: "Rekomendasi Kursus", icon: GraduationCap },
+  { id: "jobs", label: "Lowongan Pekerjaan", icon: Briefcase },
+];
 
 const INDUSTRY_ICONS: Record<string, LucideIcon> = {
   "Software Development": Code2,
@@ -113,6 +121,35 @@ export default function CareerDetailClientPage() {
     );
   }
 
+  return <CareerDetailView career={career} score={score} industry={industry} Icon={Icon} gradient={gradient} />;
+}
+
+// ── Extracted view so hooks are always called at top level ──
+function CareerDetailView({
+  career,
+  score,
+  industry,
+  Icon,
+  gradient,
+}: {
+  career: { id: string; title: string; description: string | null; industry: string | null };
+  score: number;
+  industry: string;
+  Icon: LucideIcon;
+  gradient: string;
+}) {
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState<TabId>("courses");
+  const [prevTab, setPrevTab] = useState<TabId>("courses");
+
+  const handleTabChange = (tab: TabId) => {
+    if (tab === activeTab) return;
+    setPrevTab(activeTab);
+    setActiveTab(tab);
+  };
+
+  const direction = TABS.findIndex((t) => t.id === activeTab) > TABS.findIndex((t) => t.id === prevTab) ? 1 : -1;
+
   return (
     <section className="w-full space-y-6">
       {/* Back button */}
@@ -180,24 +217,61 @@ export default function CareerDetailClientPage() {
         </p>
       </motion.div>
 
-      {/* ── Course Recommendation Section ── */}
+      {/* ── Tabbed Panel: Kursus & Lowongan ── */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="rounded-2xl border border-white/80 bg-white/60 p-6 backdrop-blur-xl"
+        className="overflow-hidden rounded-2xl border border-white/80 bg-white/60 backdrop-blur-xl"
       >
-        <CourseSection careerTitle={career.title} />
-      </motion.div>
+        {/* Tab Header */}
+        <div className="flex items-center gap-1 border-b border-slate-100 bg-white/80 p-1.5">
+          {TABS.map((tab) => {
+            const TabIcon = tab.icon;
+            const isActive = activeTab === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => handleTabChange(tab.id)}
+                className={`relative flex flex-1 cursor-pointer items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-colors duration-200 ${
+                  isActive
+                    ? "text-indigo-700"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                {isActive && (
+                  <motion.span
+                    layoutId="active-tab-bg"
+                    className="absolute inset-0 rounded-xl bg-indigo-50 shadow-sm"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <TabIcon className="relative z-10 h-4 w-4" />
+                <span className="relative z-10">{tab.label}</span>
+              </button>
+            );
+          })}
+        </div>
 
-      {/* ── Job Recommendation Section ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="rounded-2xl border border-white/80 bg-white/60 p-6 backdrop-blur-xl"
-      >
-        <JobSection careerId={career.id} />
+        {/* Tab Content with slide animation */}
+        <div className="relative overflow-hidden p-6">
+          <AnimatePresence mode="wait" custom={direction}>
+            <motion.div
+              key={activeTab}
+              custom={direction}
+              initial={{ opacity: 0, x: direction * 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: direction * -40 }}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
+            >
+              {activeTab === "courses" ? (
+                <CourseSection careerTitle={career.title} />
+              ) : (
+                <JobSection careerTitle={career.title} />
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </motion.div>
     </section>
   );
