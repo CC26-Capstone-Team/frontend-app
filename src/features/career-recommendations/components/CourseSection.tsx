@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen,
@@ -24,19 +23,10 @@ interface CourseSectionProps {
 }
 
 export default function CourseSection({ careerTitle }: CourseSectionProps) {
-  // const [courseData, setCourseData] = useState<CourseRecommendation | null>(
-  //   null
-  // );
-
-  const [startFetch, setStartFetch] = useState(false)
-  const { data: courseData, isPending, isError } = useCourseRecommendation(careerTitle);
+  const { data: courseData, isFetching: isPending, isError, refetch } = useCourseRecommendation(careerTitle);
 
   const handleGenerate = () => {
-    if (!startFetch) {
-      setStartFetch(true) 
-    } else {
-      setStartFetch(false)
-    }
+    refetch();
   };
 
   return (
