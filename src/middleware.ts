@@ -5,11 +5,15 @@ export function middleware(request: NextRequest) {
   const isOnboarded = request.cookies.get("is_onboarded")?.value === "true";
   const { pathname } = request.nextUrl;
 
-  if (!token && pathname.startsWith("/dashboard")) {
+  const isProtectedRoute =
+    pathname.startsWith("/dashboard") ||
+    pathname.startsWith("/career-recommendations");
+
+  if (!token && isProtectedRoute) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  if (token && !isOnboarded && pathname.startsWith("/dashboard")) {
+  if (token && !isOnboarded && isProtectedRoute) {
     return NextResponse.redirect(new URL("/onboarding", request.url));
   }
 
@@ -34,6 +38,8 @@ export const config = {
     "/register",
     "/dashboard",
     "/dashboard/:path",
+    "/career-recommendations",
+    "/career-recommendations/:path*",
     "/onboarding",
   ],
 };
