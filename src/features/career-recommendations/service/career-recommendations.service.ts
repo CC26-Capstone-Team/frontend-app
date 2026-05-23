@@ -5,13 +5,12 @@ import type {
   JobRecommendationResponse,
 } from "../types/career-recommendations.types";
 
-export const getLatestSession =
-  async (): Promise<RecommendationSession> => {
-    const res = await apiClient.get<{
-      recommendation: RecommendationSession;
-    }>("/recommendations/latest");
-    return res.data.recommendation;
-  };
+export const getLatestSession = async (): Promise<RecommendationSession> => {
+  const res = await apiClient.get<{
+    recommendation: RecommendationSession;
+  }>("/recommendations/latest");
+  return res.data.recommendation;
+};
 
 export const getRecommendationHistory = async (): Promise<
   RecommendationSession[]
