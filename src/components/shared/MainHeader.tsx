@@ -43,14 +43,14 @@ export default function MainHeader({
   };
 
   return (
-    <header className="fixed top-0 z-50 w-full border-b border-slate-200/60 bg-white/80 backdrop-blur-md">
-      {/* bagian tombol toggle sidebar */}
+    // Menyesuaikan material agar senada dengan efek glassmorphic pada komponen utama
+    <header className="fixed top-0 z-50 w-full border-b border-white/80 bg-white/60 shadow-sm shadow-indigo-100/10 backdrop-blur-xl">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           <div className="flex items-center">
             <button
               type="button"
-              className="mr-4 rounded-md p-2 text-gray-500 hover:bg-gray-100 focus:outline-none dark:hover:bg-slate-700"
+              className="mr-4 rounded-md p-2 text-gray-500 hover:bg-indigo-50/50 focus:outline-none dark:hover:bg-slate-700"
               onClick={() => setSidebarOpen(!sidebarOpen)}
             >
               {sidebarOpen ? (
@@ -74,7 +74,7 @@ export default function MainHeader({
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
-                  className="flex items-center space-x-2 font-normal text-slate-700 dark:text-slate-300"
+                  className="flex items-center space-x-2 font-normal text-slate-700 hover:bg-white/50 dark:text-slate-300"
                 >
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-700">
                     <User className="h-4 w-4 text-slate-600 dark:text-slate-400" />
