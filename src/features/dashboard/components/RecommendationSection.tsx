@@ -60,7 +60,7 @@ export default function RecommendationSection({
         </div>
 
         <Link
-          href="/recommendations"
+          href="/career-recommendations"
           className="group flex items-center gap-1 text-xs font-semibold text-indigo-600 transition-colors hover:text-indigo-700"
         >
           Lihat semua
