@@ -24,15 +24,19 @@ interface CourseSectionProps {
 }
 
 export default function CourseSection({ careerTitle }: CourseSectionProps) {
-  const [courseData, setCourseData] = useState<CourseRecommendation | null>(
-    null
-  );
-  const { mutate, isPending, isError } = useCourseRecommendation();
+  // const [courseData, setCourseData] = useState<CourseRecommendation | null>(
+  //   null
+  // );
+
+  const [startFetch, setStartFetch] = useState(false)
+  const { data: courseData, isPending, isError } = useCourseRecommendation(careerTitle);
 
   const handleGenerate = () => {
-    mutate(careerTitle, {
-      onSuccess: (data) => setCourseData(data),
-    });
+    if (!startFetch) {
+      setStartFetch(true) 
+    } else {
+      setStartFetch(false)
+    }
   };
 
   return (
