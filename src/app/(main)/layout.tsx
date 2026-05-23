@@ -35,9 +35,8 @@ export default function MainLayout({
   }, [pathname]);
 
   return (
-    // Memindahkan background utama ke sini agar menyatu ke seluruh layout
     <div className="relative min-h-screen overflow-hidden bg-indigo-50 font-sans">
-      {/* Decorative blobs dipindah ke Layout */}
+      {/* Elemen dekoratif tunggal yang mengalir di bawah komponen kaca */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -top-24 -right-24 z-0 h-90 w-90 rounded-full bg-violet-400/20 blur-[100px]"
@@ -47,7 +46,6 @@ export default function MainLayout({
         className="pointer-events-none absolute -bottom-16 -left-16 z-0 h-75 w-75 rounded-full bg-emerald-400/20 blur-[100px]"
       />
 
-      {/* Wrapper konten dengan z-index agar ada di atas blobs */}
       <div className="relative z-10">
         <MainHeader sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
@@ -64,7 +62,9 @@ export default function MainLayout({
           <main
             className={cn(
               "w-full min-w-0 flex-1 overflow-x-hidden transition-all duration-300",
-              sidebarOpen ? "md:ml-64" : "ml-0"
+              // Mobile: margin 0 saat ditutup.
+              // Desktop: margin 64 saat buka, margin 20 saat ditutup.
+              sidebarOpen ? "md:ml-64" : "ml-0 md:ml-20"
             )}
           >
             <div className="mx-auto w-full max-w-7xl p-4 sm:p-6 md:p-8">
