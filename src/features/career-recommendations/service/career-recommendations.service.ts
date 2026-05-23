@@ -30,6 +30,15 @@ export const generateCourseRecommendation = async (
   return res.data.course_recommendation;
 };
 
+export const refreshCourseRecommendation = async (
+  targetCareer: string
+): Promise<CourseRecommendation> => {
+  const res = await apiClient.get<{
+    course_recommendation: CourseRecommendation;
+  }>(`/recommendations/course/${encodeURIComponent(targetCareer)}?force=true`);
+  return res.data.course_recommendation;
+};
+
 export const getJobRecommendations = async (
   targetCareer: string
 ): Promise<JobRecommendationResponse> => {

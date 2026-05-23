@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen,
@@ -8,8 +10,10 @@ import {
   GraduationCap,
   ExternalLink,
   AlertCircle,
+  RefreshCw,
+  CheckCircle2,
 } from "lucide-react";
-import { useCourseRecommendation } from "../hooks/use-career-recommendations";
+import { useCourseRecommendation, useRefreshCourseRecommendation } from "../hooks/use-career-recommendations";
 import type { CourseRecommendation } from "../types/career-recommendations.types";
 
 const LEVEL_COLORS: Record<string, string> = {
@@ -23,19 +27,61 @@ interface CourseSectionProps {
 }
 
 export default function CourseSection({ careerTitle }: CourseSectionProps) {
-  const { data: courseData, isFetching: isPending, isError, refetch } = useCourseRecommendation(careerTitle);
+  const { data: courseData, isFetching: isQueryFetching, isError, refetch } = useCourseRecommendation(careerTitle);
+  const { mutateAsync: refreshCourse, isPending: isRefreshPending } = useRefreshCourseRecommendation(careerTitle);
+  const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleGenerate = () => {
-    refetch();
+  const isPending = isQueryFetching || isRefreshPending;
+
+  const handleGenerate = async () => {
+    try {
+      await refreshCourse();
+      setIsSuccess(true);
+      setTimeout(() => setIsSuccess(false), 2000);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <section className="space-y-4">
-      <div className="flex items-center gap-2">
-        <GraduationCap className="h-5 w-5 text-indigo-600" />
-        <h2 className="text-base font-bold text-slate-900">
-          Rekomendasi Kursus
-        </h2>
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <GraduationCap className="h-5 w-5 text-indigo-600" />
+          <h2 className="text-base font-bold text-slate-900">
+            Rekomendasi Kursus
+          </h2>
+        </div>
+        
+        {courseData && (
+          <button
+            onClick={handleGenerate}
+            disabled={isPending || isSuccess}
+            className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium transition-colors disabled:opacity-50 ${
+              isSuccess
+                ? "bg-emerald-50 text-emerald-600"
+                : "bg-indigo-50 text-indigo-600 hover:bg-indigo-100"
+            }`}
+          >
+            {isSuccess ? (
+              <>
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                >
+                  <CheckCircle2 className="h-3.5 w-3.5" />
+                </motion.div>
+                Berhasil
+              </>
+            ) : (
+              <>
+                <RefreshCw className={`h-3.5 w-3.5 ${isPending ? "animate-spin" : ""}`} />
+                {isPending ? "Memperbarui..." : "Rekomendasi Ulang"}
+              </>
+            )}
+          </button>
+        )}
       </div>
 
       {/* Not yet generated */}
@@ -64,7 +110,7 @@ export default function CourseSection({ careerTitle }: CourseSectionProps) {
       )}
 
       {/* Loading */}
-      {isPending && (
+      {isPending && !courseData && (
         <div className="flex flex-col items-center rounded-2xl border border-white/80 bg-white/60 py-12 backdrop-blur-xl">
           <Loader2 className="h-8 w-8 animate-spin text-indigo-500" />
           <p className="mt-3 text-sm font-medium text-slate-500">
@@ -100,9 +146,9 @@ export default function CourseSection({ careerTitle }: CourseSectionProps) {
         {courseData && (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="space-y-4"
+            animate={{ opacity: isPending ? 0.5 : 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className={`space-y-4 transition-opacity ${isPending ? "pointer-events-none" : ""}`}
           >
             {/* Analysis Card */}
             <div className="rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50/80 to-purple-50/60 p-5">

@@ -5,6 +5,7 @@ import {
   getRecommendationHistory,
   getJobRecommendations,
   refreshJobRecommendations,
+  refreshCourseRecommendation,
 } from "../service/career-recommendations.service";
 
 export const useLatestSession = () => {
@@ -25,7 +26,17 @@ export const useCourseRecommendation = (targetCareer: string) => {
   return useQuery({
     queryKey: ["course-recommendation", targetCareer],
     queryFn: () => generateCourseRecommendation(targetCareer),
-    enabled: false,
+    enabled: !!targetCareer,
+  });
+};
+
+export const useRefreshCourseRecommendation = (targetCareer: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => refreshCourseRecommendation(targetCareer),
+    onSuccess: (newCourses) => {
+      queryClient.setQueryData(["course-recommendation", targetCareer], newCourses);
+    },
   });
 };
 
