@@ -92,17 +92,30 @@ export default function RecommendationCard({
             <p className="mt-0.5 truncate text-xs text-slate-400">{subtitle}</p>
           )}
 
-          {/* Dummy Skills */}
+          {/* Skills List */}
           {skills.length > 0 && (
             <div className="mt-2.5 flex flex-wrap gap-1.5">
               {skills.map((skill, index) => (
                 <span
                   key={index}
-                  className="rounded-md border border-slate-200/60 bg-slate-100/80 px-2 py-0.5 text-[10px] font-medium text-slate-500"
+                  className={cn(
+                    "rounded-md border border-slate-200/60 bg-slate-100/80 px-2 py-0.5 text-[10px] font-medium text-slate-500",
+                    // Tampilkan maksimal 3 di mobile. Index 3 ke atas (skill ke-4 dst)
+                    // disembunyikan di mobile, tapi ditampilkan di layar sm ke atas.
+                    index >= 3 ? "hidden sm:inline-block" : "inline-block"
+                  )}
                 >
                   {skill}
                 </span>
               ))}
+
+              {/* Indikator +X */}
+              {/* Hanya tampil di mobile (disembunyikan di layar sm ke atas) */}
+              {skills.length > 3 && (
+                <span className="inline-block rounded-md border border-slate-300/60 bg-slate-200/80 px-2 py-0.5 text-[10px] font-bold text-slate-600 sm:hidden">
+                  +{skills.length - 3}
+                </span>
+              )}
             </div>
           )}
 

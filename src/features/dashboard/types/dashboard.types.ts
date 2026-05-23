@@ -10,6 +10,7 @@ export interface Career {
   title: string;
   description: string | null;
   industry: string | null;
+  skills: Skill[];
 }
 
 export interface RecommendationHistory {

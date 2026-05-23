@@ -118,7 +118,7 @@ export default function RecommendationSection({
                   match={score}
                   subtitle={rec.career.industry ?? undefined}
                   icon={ICONS[index % ICONS.length]}
-                  skills={DUMMY_SKILLS[index % DUMMY_SKILLS.length]}
+                  skills={rec.career.skills.map((s) => s.name)}
                   isTopMatch={isTopMatch}
                 />
               </motion.div>
