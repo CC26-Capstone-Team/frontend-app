@@ -21,7 +21,11 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import MatchScoreRing from "./MatchScoreRing";
-import type { RecommendationHistory } from "../types/career-recommendations.types";
+import type {
+  Career,
+  RecommendationHistory,
+  Skill,
+} from "../types/career-recommendations.types";
 
 const INDUSTRY_ICONS: Record<string, LucideIcon> = {
   "Software Development": Code2,
@@ -57,12 +61,14 @@ interface CareerCardProps {
   recommendation: RecommendationHistory;
   index: number;
   isTopMatch: boolean;
+  skills: Skill[];
 }
 
 export default function CareerCard({
   recommendation,
   index,
   isTopMatch,
+  skills,
 }: CareerCardProps) {
   const { career, match_score } = recommendation;
   const score = Math.round(parseFloat(match_score) * 100);
@@ -102,9 +108,7 @@ export default function CareerCard({
           )}
 
           {/* Gradient accent line */}
-          <div
-            className={cn("h-1 w-full bg-gradient-to-r", gradient)}
-          />
+          <div className={cn("h-1 w-full bg-gradient-to-r", gradient)} />
 
           <div className="p-5">
             {/* Header: Icon + Info + Score Ring */}
@@ -121,7 +125,7 @@ export default function CareerCard({
 
               {/* Career Info */}
               <div className="min-w-0 flex-1">
-                <h3 className="truncate text-sm font-bold text-slate-900 group-hover:text-indigo-700 transition-colors">
+                <h3 className="truncate text-sm font-bold text-slate-900 transition-colors group-hover:text-indigo-700">
                   {career.title}
                 </h3>
                 <span className="mt-0.5 inline-block rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-medium text-slate-500">
@@ -134,6 +138,33 @@ export default function CareerCard({
                 <MatchScoreRing score={score} size={72} strokeWidth={5} />
               </div>
             </div>
+
+            {/* Skills List */}
+            {career && (
+              <div className="mt-2.5 flex flex-wrap gap-1.5">
+                {skills.map((skill, index) => (
+                  <span
+                    key={index}
+                    className={cn(
+                      "rounded-md border border-slate-200/60 bg-slate-100/80 px-2 py-0.5 text-[10px] font-medium text-slate-500",
+                      // Tampilkan maksimal 3 di mobile. Index 3 ke atas (skill ke-4 dst)
+                      // disembunyikan di mobile, tapi ditampilkan di layar sm ke atas.
+                      index >= 3 ? "hidden sm:inline-block" : "inline-block"
+                    )}
+                  >
+                    {skill.name}
+                  </span>
+                ))}
+
+                {/* Indikator +X */}
+                {/* Hanya tampil di mobile (disembunyikan di layar sm ke atas) */}
+                {skills.length > 3 && (
+                  <span className="inline-block rounded-md border border-slate-300/60 bg-slate-200/80 px-2 py-0.5 text-[10px] font-bold text-slate-600 sm:hidden">
+                    +{skills.length - 3}
+                  </span>
+                )}
+              </div>
+            )}
 
             {/* Description */}
             <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-slate-500">
