@@ -83,3 +83,15 @@ export interface StatsCardProps {
 export interface StatsSectionProps {
   recommendation: RecommendationHistory[];
 }
+
+export interface SkillSelectedProps {
+  skill: string[];
+  selectedSkillsData: { id: string; name: string }[];
+  toggle: (id: string) => void;
+  isPending: boolean;
+}
+
+export interface SkillSearchProps {
+  searchSkill: string;
+  setSearchSkill: (value: string) => void;
+}
