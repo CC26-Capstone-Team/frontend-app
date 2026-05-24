@@ -3,6 +3,7 @@ import { Plus_Jakarta_Sans, Syne } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/providers/query-providers";
 import { AuthProvider } from "@/providers/auth-provider";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { Toaster } from "sonner";
 
 const jakarta = Plus_Jakarta_Sans({
@@ -28,6 +29,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const clientId = process.env.NEXT_PUBLIC_OAUTH_CLIENT_ID || "";
+
   return (
     <html
       lang="en"
@@ -36,7 +39,9 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <QueryProvider>
           <AuthProvider>
-            <main>{children}</main>
+            <GoogleOAuthProvider clientId={clientId}>
+              <main>{children}</main>
+            </GoogleOAuthProvider>
             <Toaster position="top-center" richColors />
           </AuthProvider>
         </QueryProvider>

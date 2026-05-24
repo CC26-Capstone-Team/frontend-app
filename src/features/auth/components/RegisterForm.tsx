@@ -15,11 +15,13 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/providers/auth-provider";
+import { GoogleLogin } from "@react-oauth/google";
+import { isAxiosError } from "axios";
 
 export default function RegisterForm() {
   const router = useRouter();
 
-  const { register } = useAuth();
+  const { register, loginWithGoogle } = useAuth();
 
   // State
   const [name, setName] = useState("");
@@ -318,33 +320,38 @@ export default function RegisterForm() {
       </div>
 
       {/* Google Button */}
-      <Button
-        type="button"
-        variant="outline"
-        className="w-full cursor-pointer justify-center gap-2 rounded-lg border-slate-200 py-5.5 text-sm font-semibold text-slate-700 transition-all hover:border-slate-300 hover:bg-slate-50"
-      >
-        <svg className="size-5" viewBox="0 0 24 24" width="24" height="24">
-          <g transform="matrix(1, 0, 0, 1, 0, 0)">
-            <path
-              d="M21.35,11.1H12v2.7h5.38C16.88,15.5,14.81,16.8,12,16.8c-2.9,0-5.36-1.97-6.24-4.62c-0.22-0.67-0.35-1.39-0.35-2.18s0.13-1.51,0.35-2.18c0.88-2.65,3.34-4.62,6.24-4.62c1.65,0,3.13,0.59,4.3,1.57l2.02-2.02C16.79,1.25,14.53,0.5,12,0.5C7.29,0.5,3.22,3.2,1.22,7.15C0.76,8.06,0.5,9.08,0.5,10.15s0.26,2.09,0.72,3c2,3.95,6.07,6.65,10.78,6.65c2.97,0,5.61-0.99,7.56-2.69c2.31-2.02,3.64-5.26,3.64-8.91C22.5,7.58,22.09,6.72,21.35,11.1z"
-              fill="#4285F4"
-            />
-            <path
-              d="M1.22,7.15l3.22,2.37c0.22-0.67,0.35-1.39,0.35-2.18s-0.13-1.51-0.35-2.18L1.22,5.15C0.76,6.06,0.5,7.08,0.5,8.15S0.76,10.24,1.22,11.15z"
-              fill="#FBBC05"
-            />
-            <path
-              d="M12,3.8c1.65,0,3.13,0.59,4.3,1.57l2.02-2.02C16.79,2.1,14.53,1.35,12,1.35C7.29,1.35,3.22,4.05,1.22,8L4.44,10.37C5.32,7.72,7.78,5.75,12,5.75z"
-              fill="#EA4335"
-            />
-            <path
-              d="M12,16.25c-2.9,0-5.36-1.97-6.24-4.62L2.54,14C4.54,17.95,8.61,20.65,13.32,20.65c2.97,0,5.61-0.99,7.56-2.69l-2.02-2.02C16.79,15.2,14.53,16.25,12,16.25z"
-              fill="#34A853"
-            />
-          </g>
-        </svg>
-        Daftar dengan Google
-      </Button>
+      <div className="flex w-full justify-center">
+        <GoogleLogin
+          onSuccess={async (credentialResponse) => {
+            if (!credentialResponse.credential) return;
+
+            setIsPending(true); // Gunakan state loading yang sudah ada
+            try {
+              // Panggil fungsi yang baru kita buat di auth-provider
+              await loginWithGoogle(credentialResponse.credential);
+
+              router.push("/dashboard");
+              router.refresh();
+            } catch (err) {
+              const errorMessage =
+                (isAxiosError(err) && err.response?.data?.message) ||
+                "Gagal masuk dengan Google. Silakan coba lagi.";
+              setGeneralError(errorMessage);
+            } finally {
+              setIsPending(false);
+            }
+          }}
+          onError={() => {
+            setGeneralError("Proses login Google dibatalkan atau gagal.");
+          }}
+          // Styling: Mengubah tampilan agar cocok dengan desain Anda
+          shape="rectangular"
+          theme="outline"
+          size="large"
+          text="continue_with"
+          width="100%"
+        />
+      </div>
 
       {/* Navigation to Login */}
       <div className="text-center text-sm text-slate-500">
