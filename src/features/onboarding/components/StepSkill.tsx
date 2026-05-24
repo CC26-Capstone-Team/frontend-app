@@ -3,27 +3,12 @@
 import { useState, useMemo } from "react";
 import { useSkills } from "../hooks/use-onboarding";
 import { Button } from "@/components/ui/button";
-import {
-  ArrowLeft,
-  Loader2,
-  Sparkles,
-  Search,
-  X,
-  Info,
-  Plus,
-} from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { ArrowLeft, Loader2, Sparkles, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { motion, AnimatePresence } from "framer-motion";
 
 // IMPOR SHADCN TOOLTIP
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import SkillSelected from "./SkillSelected";
 import SkillSearch from "./SkillSearch";
 

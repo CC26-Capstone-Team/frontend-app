@@ -8,6 +8,7 @@ import StepAcademic from "./StepAcademic";
 import StepSkills from "./StepSkill";
 import { setCookie } from "cookies-next";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const initialFormData: OnboardingPayload = {
   education_level: "",
@@ -20,6 +21,8 @@ export default function OnboardingForm() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<OnboardingPayload>(initialFormData);
   const { mutate, isPending } = useSubmitOnboarding();
+
+  const router = useRouter();
 
   const handleNextStep = (data: Omit<OnboardingPayload, "skill_ids">) => {
     setFormData((prev) => ({ ...prev, ...data }));
@@ -36,9 +39,10 @@ export default function OnboardingForm() {
             description:
               "Mesin AI kami sedang memetakan jalur karir terbaik untukmu.",
           });
-          setTimeout(() => {
-            window.location.href = "/dashboard";
-          }, 2000);
+
+          router.refresh();
+
+          router.push("/dashboard");
         },
         onError: (error) => {
           toast.error("Gagal Menyimpan Data", {
