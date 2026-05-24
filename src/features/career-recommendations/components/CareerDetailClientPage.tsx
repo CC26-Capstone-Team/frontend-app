@@ -29,6 +29,8 @@ import { useLatestSession } from "../hooks/use-career-recommendations";
 import MatchScoreRing from "./MatchScoreRing";
 import CourseSection from "./CourseSection";
 import JobSection from "./JobSection";
+import { Skill } from "../types/career-recommendations.types";
+import { cn } from "@/lib/utils";
 
 type TabId = "courses" | "jobs";
 
@@ -88,8 +90,7 @@ export default function CareerDetailClientPage() {
     : 0;
   const industry = career?.industry ?? "Lainnya";
   const Icon = INDUSTRY_ICONS[industry] ?? Sparkles;
-  const gradient =
-    INDUSTRY_GRADIENTS[industry] ?? "from-slate-500 to-gray-500";
+  const gradient = INDUSTRY_GRADIENTS[industry] ?? "from-slate-500 to-gray-500";
 
   // Loading
   if (isLoading) {
@@ -121,7 +122,16 @@ export default function CareerDetailClientPage() {
     );
   }
 
-  return <CareerDetailView career={career} score={score} industry={industry} Icon={Icon} gradient={gradient} />;
+  return (
+    <CareerDetailView
+      career={career}
+      score={score}
+      industry={industry}
+      Icon={Icon}
+      gradient={gradient}
+      skills={career.skills}
+    />
+  );
 }
 
 // ── Extracted view so hooks are always called at top level ──
@@ -131,12 +141,19 @@ function CareerDetailView({
   industry,
   Icon,
   gradient,
+  skills,
 }: {
-  career: { id: string; title: string; description: string | null; industry: string | null };
+  career: {
+    id: string;
+    title: string;
+    description: string | null;
+    industry: string | null;
+  };
   score: number;
   industry: string;
   Icon: LucideIcon;
   gradient: string;
+  skills: Skill[];
 }) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<TabId>("courses");
@@ -148,7 +165,11 @@ function CareerDetailView({
     setActiveTab(tab);
   };
 
-  const direction = TABS.findIndex((t) => t.id === activeTab) > TABS.findIndex((t) => t.id === prevTab) ? 1 : -1;
+  const direction =
+    TABS.findIndex((t) => t.id === activeTab) >
+    TABS.findIndex((t) => t.id === prevTab)
+      ? 1
+      : -1;
 
   return (
     <section className="w-full space-y-6">
@@ -164,42 +185,70 @@ function CareerDetailView({
       </motion.button>
 
       {/* ── Hero Card ── */}
-      <motion.div
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="relative overflow-hidden rounded-2xl border border-white/80 bg-white/70 shadow-sm backdrop-blur-xl"
-      >
-        {/* Top gradient accent */}
-        <div className={`h-1.5 w-full bg-gradient-to-r ${gradient}`} />
+      <div className="relative overflow-hidden rounded-2xl border border-white/80 bg-white/70 p-6 shadow-sm backdrop-blur-xl">
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          {/* Top gradient accent */}
 
-        <div className="flex flex-col gap-6 p-6 sm:flex-row sm:items-center sm:justify-between">
-          {/* Left: Career info */}
-          <div className="flex items-start gap-4">
-            <div
-              className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${gradient} text-white shadow-lg`}
-            >
-              <Icon className="h-7 w-7" />
-            </div>
-            <div>
-              <h1 className="text-xl font-bold text-slate-900">
-                {career.title}
-              </h1>
-              <div className="mt-1.5 flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-medium text-slate-600">
-                  <Building2 className="h-3 w-3" />
-                  {industry}
-                </span>
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+            {/* Left: Career info */}
+            <div className="flex items-start gap-4">
+              <div
+                className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br ${gradient} text-white shadow-lg`}
+              >
+                <Icon className="h-7 w-7" />
+              </div>
+
+              <div>
+                <h1 className="text-xl font-bold text-slate-900">
+                  {career.title}
+                </h1>
+                <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-medium text-slate-600">
+                    <Building2 className="h-3 w-3" />
+                    {industry}
+                  </span>
+                </div>
+
+                {/* Skills List (Dipindahkan ke sini agar sejajar dengan info karir) */}
+                {career && skills && (
+                  <div className="mt-2.5 flex flex-wrap gap-1.5">
+                    {skills.map((skill, index) => (
+                      <span
+                        key={index}
+                        className={cn(
+                          "rounded-md border border-slate-200/60 bg-slate-100/80 px-2 py-0.5 text-[10px] font-medium text-slate-500",
+                          // Tampilkan maksimal 3 di mobile. Index 3 ke atas (skill ke-4 dst)
+                          // disembunyikan di mobile, tapi ditampilkan di layar sm ke atas.
+                          index >= 3 ? "hidden sm:inline-block" : "inline-block"
+                        )}
+                      >
+                        {skill.name}
+                      </span>
+                    ))}
+
+                    {/* Indikator +X */}
+                    {/* Hanya tampil di mobile (disembunyikan di layar sm ke atas) */}
+                    {skills.length > 3 && (
+                      <span className="inline-block rounded-md border border-slate-300/60 bg-slate-200/80 px-2 py-0.5 text-[10px] font-bold text-slate-600 sm:hidden">
+                        +{skills.length - 3}
+                      </span>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
-          </div>
 
-          {/* Right: Score ring */}
-          <div className="shrink-0 self-center">
-            <MatchScoreRing score={score} size={110} strokeWidth={8} />
+            {/* Right: Score ring */}
+            <div className="shrink-0 self-center">
+              <MatchScoreRing score={score} size={110} strokeWidth={8} />
+            </div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
 
       {/* ── Description Section ── */}
       <motion.div

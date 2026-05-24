@@ -1,8 +1,14 @@
+export interface Skill {
+  id: string;
+  name: string;
+}
+
 export interface Career {
   id: string;
   title: string;
   description: string | null;
   industry: string | null;
+  skills: Skill[];
 }
 
 export interface RecommendationHistory {
@@ -70,4 +76,3 @@ export interface JobRecommendationResponse {
   last_fetched_at: string;
   jobs: JobRecommendationItem[];
 }
-

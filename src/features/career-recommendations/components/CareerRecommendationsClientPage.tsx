@@ -95,7 +95,9 @@ export default function CareerRecommendationsClientPage() {
               <span className="text-xs font-semibold text-slate-700">
                 {sortedRecommendations.length}
               </span>
-              <span className="text-xs text-slate-400">karir direkomendasikan</span>
+              <span className="text-xs text-slate-400">
+                karir direkomendasikan
+              </span>
             </div>
             <div className="h-4 w-px bg-slate-200" />
             <div className="flex items-center gap-1.5">
@@ -179,6 +181,7 @@ export default function CareerRecommendationsClientPage() {
                 recommendation={rec}
                 index={index}
                 isTopMatch={isTopMatch}
+                skills={rec.career.skills}
               />
             );
           })}
