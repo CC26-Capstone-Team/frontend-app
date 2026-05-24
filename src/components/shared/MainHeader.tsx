@@ -11,6 +11,7 @@ import {
 } from "../ui/dropdown-menu";
 import { useAuth } from "@/providers/auth-provider";
 import { useRouter } from "next/navigation";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 interface MainHeaderProps {
   sidebarOpen: boolean;
@@ -23,6 +24,12 @@ export default function MainHeader({
 }: MainHeaderProps) {
   const { user, isLoading, logout } = useAuth();
   const router = useRouter();
+
+  const getUserAvatar = () => {
+    if (isLoading) return;
+    if (user?.avatar_url) return user.avatar_url;
+    return "/default-avatar.png";
+  };
 
   const getUserDisplayName = () => {
     if (isLoading) return "Loading...";
@@ -77,7 +84,10 @@ export default function MainHeader({
                   className="flex items-center space-x-2 font-normal text-slate-700 hover:bg-white/50 dark:text-slate-300"
                 >
                   <div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-200 dark:bg-slate-700">
-                    <User className="h-4 w-4 text-slate-600 dark:text-slate-400" />
+                    <Avatar>
+                      <AvatarImage src={getUserAvatar()} />
+                      <AvatarFallback>US</AvatarFallback>
+                    </Avatar>
                   </div>
                   <div className="hidden text-left md:block">
                     <p className="text-sm font-normal">
