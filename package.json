@@ -12,8 +12,10 @@
   },
   "dependencies": {
     "@react-oauth/google": "^0.13.5",
+    "@tanstack/react-form": "^1.33.0",
     "@tanstack/react-query": "^5.96.1",
     "@tanstack/react-query-devtools": "^5.96.1",
+    "@tanstack/zod-form-adapter": "^0.42.1",
     "axios": "^1.14.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
