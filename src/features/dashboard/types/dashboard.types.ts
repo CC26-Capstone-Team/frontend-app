@@ -64,6 +64,7 @@ export interface RecommendationCardProps {
   icon: LucideIcon;
   skills?: string[];
   isTopMatch?: boolean;
+  rank: number
 }
 
 export interface RecommendationProps {

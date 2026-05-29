@@ -13,7 +13,34 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { ArrowRight, AlertCircle } from "lucide-react";
+import { ArrowRight, AlertCircle, Loader2 } from "lucide-react";
+import { useEducationMetadata } from "../hooks/use-onboarding";
+
+// --- KAMUS TERJEMAHAN ---
+const educationTranslation: Record<string, string> = {
+  "High School": "SMA / SMK Sederajat",
+  "Associate": "Diploma (D1 - D4)",
+  "Bootcamp": "Bootcamp / Pelatihan Intensif",
+  "Bachelor's": "Sarjana (S1)",
+  "Master's": "Magister (S2)",
+  "PhD": "Doktor (S3)",
+};
+
+const majorTranslation: Record<string, string> = {
+  "Administration": "Administrasi",
+  "Communication Science": "Ilmu Komunikasi",
+  "Computer Science": "Ilmu Komputer",
+  "Electrical Engineering": "Teknik Elektro",
+  "Industrial Engineering": "Teknik Industri",
+  "Informatics Engineering": "Teknik Informatika",
+  "Information Systems": "Sistem Informasi",
+  "Law": "Ilmu Hukum",
+  "Management": "Manajemen",
+  "Mathematics": "Matematika",
+  "Mechanical Engineering": "Teknik Mesin",
+  "Psychology": "Psikologi",
+  "Statistics": "Statistika",
+};
 
 type Props = {
   defaultValues: Omit<OnboardingPayload, "skill_ids">;
@@ -25,14 +52,15 @@ export default function StepAcademic({ defaultValues, onNext }: Props) {
     defaultValues.education_level
   );
   const [major, setMajor] = useState(defaultValues.major);
-  const [gpa, setGpa] = useState<number | string>(defaultValues.gpa || ""); // Izinkan string sementara agar input number tidak error
+  const [gpa, setGpa] = useState<number | string>(defaultValues.gpa || "");
 
   const [errors, setErrors] = useState<
     Partial<Record<"education_level" | "major" | "gpa", string>>
   >({});
 
+  const { data: metadata, isLoading, isError } = useEducationMetadata();
+
   const handleNext = () => {
-    // Parsing manual untuk memastikan tipe gpa adalah number saat diuji Zod
     const parsedGpa = typeof gpa === "string" ? parseFloat(gpa) : gpa;
 
     const result = academicSchema.safeParse({
@@ -51,14 +79,34 @@ export default function StepAcademic({ defaultValues, onNext }: Props) {
       return;
     }
 
-    // Clear errors & lanjut
     setErrors({});
     onNext({ education_level: educationLevel, major, gpa: parsedGpa || 0 });
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex h-64 flex-col items-center justify-center space-y-4">
+        <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
+        <p className="text-sm font-medium text-slate-500">
+          Menyiapkan formulir akademik...
+        </p>
+      </div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="flex h-64 flex-col items-center justify-center space-y-2 text-center text-rose-500">
+        <AlertCircle className="h-8 w-8" />
+        <p className="text-sm font-medium">Gagal memuat data master.</p>
+        <p className="text-xs text-rose-400">Silakan muat ulang halaman.</p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
-      {/* Field: Jenjang Pendidikan */}
+      {/* Jenjang Pendidikan */}
       <div className="space-y-2">
         <Label
           htmlFor="education"
@@ -71,13 +119,18 @@ export default function StepAcademic({ defaultValues, onNext }: Props) {
             id="education"
             className={`bg-white/50 ${errors.education_level ? "border-rose-500" : ""}`}
           >
-            <SelectValue placeholder="Pilih jenjang..." />
+            {/* Tampilkan placeholder atau terjemahan jika sudah ada value yang terpilih */}
+            <SelectValue placeholder="Pilih jenjang...">
+              {educationLevel ? educationTranslation[educationLevel] : ""}
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="SMA">SMA / SMK Sederajat</SelectItem>
-            <SelectItem value="D3">Diploma 3 (D3)</SelectItem>
-            <SelectItem value="S1">Strata 1 (S1)</SelectItem>
-            <SelectItem value="S2">Strata 2 (S2)</SelectItem>
+            {metadata?.education_levels.map((level) => (
+              <SelectItem key={level} value={level}>
+                {/* Fallback ke teks asli jika terjemahan tidak ditemukan */}
+                {educationTranslation[level] || level}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
         {errors.education_level && (
@@ -88,18 +141,28 @@ export default function StepAcademic({ defaultValues, onNext }: Props) {
         )}
       </div>
 
-      {/* Field: Jurusan */}
+      {/* Program Studi / Jurusan */}
       <div className="space-y-2">
         <Label htmlFor="major" className={errors.major ? "text-rose-500" : ""}>
           Program Studi / Jurusan
         </Label>
-        <Input
-          id="major"
-          value={major}
-          onChange={(e) => setMajor(e.target.value)}
-          placeholder="Contoh: Teknik Informatika"
-          className={`bg-white/50 ${errors.major ? "border-rose-500" : ""}`}
-        />
+        <Select value={major} onValueChange={setMajor}>
+          <SelectTrigger
+            id="major"
+            className={`bg-white/50 ${errors.major ? "border-rose-500" : ""}`}
+          >
+            <SelectValue placeholder="Pilih jurusan...">
+              {major ? majorTranslation[major] : ""}
+            </SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            {metadata?.majors.map((m) => (
+              <SelectItem key={m} value={m}>
+                {majorTranslation[m] || m}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         {errors.major && (
           <p className="flex items-center text-xs font-medium text-rose-500">
             <AlertCircle className="mr-1 h-3 w-3" />
@@ -108,7 +171,7 @@ export default function StepAcademic({ defaultValues, onNext }: Props) {
         )}
       </div>
 
-      {/* Field: GPA / IPK */}
+      {/* GPA / IPK */}
       <div className="space-y-2">
         <Label htmlFor="gpa" className={errors.gpa ? "text-rose-500" : ""}>
           IPK / Nilai Rata-rata
