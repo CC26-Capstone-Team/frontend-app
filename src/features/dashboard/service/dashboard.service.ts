@@ -26,7 +26,7 @@ export const getCurrentUserSkill = async (): Promise<Skill[]> => {
 };
 
 export const updateSkills = async (skillIds: string[]) => {
-  const res = await apiClient.put("/user/profile/skill", {
+  const res = await apiClient.post("/predictions/re-analyze", {
     skill_ids: skillIds,
   });
   return res.data;

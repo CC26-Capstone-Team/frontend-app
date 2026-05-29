@@ -10,7 +10,7 @@ export default function StatsSection({ recommendation = [] }: StatsSectionProps)
     recommendation[0]
   );
 
-  const topMatchScore = topMatch ? Math.round(parseFloat(topMatch.match_score) * 100) : 0;
+  const topMatchScore = topMatch ? Math.round(parseFloat(topMatch.match_score)) : 0;
   const topMatchTitle = topMatch?.career.title ?? "-";
 
   const statsData = [
