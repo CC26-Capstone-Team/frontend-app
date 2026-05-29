@@ -25,15 +25,6 @@ const ICONS = [
   Server,
 ];
 
-// Dummy Skills sesuai bidang teknologi
-const DUMMY_SKILLS = [
-  ["React", "Next.js", "Tailwind CSS"],
-  ["Express.js", "Fastify", "Node.js"],
-  ["Python", "MobileNetV2", "YOLO"],
-  ["Laravel", "PHP", "MySQL"],
-  ["Linux", "Docker", "Vim"],
-];
-
 export default function RecommendationSection({
   recommendation,
   isLoading,
@@ -102,7 +93,7 @@ export default function RecommendationSection({
           }}
         >
           {recommendation.map((rec, index) => {
-            const score = Math.round(parseFloat(rec.match_score) * 100);
+            const score = Math.round(parseFloat(rec.match_score));
             const isTopMatch = score === Math.round(highestScore);
 
             return (

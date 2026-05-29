@@ -80,6 +80,7 @@ export default function ReanalyzeModal({
       skillMutation(skillIds, {
         onSuccess: () => {
           toast.success("Skill berhasil diperbarui");
+          onSuccess();
         },
         onError: (error) => {
           toast.error("Gagal memperbarui skill");
@@ -87,7 +88,6 @@ export default function ReanalyzeModal({
         },
       });
 
-      onSuccess();
       onClose();
     } catch (error) {
       console.error("Gagal mengupdate skill", error);
