@@ -4,15 +4,15 @@ import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import { RecommendationCardProps } from "../types/dashboard.types";
 
-function getMatchStyle(match: number) {
-  if (match >= 85) {
+function getMatchStyle(rank: number) {
+  if (rank === 1) {
     return {
       value: "text-indigo-600",
       bar: "from-indigo-500 to-indigo-400",
       iconBg: "bg-indigo-100/80",
     };
   }
-  if (match >= 70) {
+  if (rank === 2) {
     return {
       value: "text-emerald-600",
       bar: "from-emerald-500 to-emerald-400",
@@ -33,8 +33,9 @@ export default function RecommendationCard({
   icon: Icon,
   skills = [],
   isTopMatch = false,
+  rank = 4,
 }: RecommendationCardProps) {
-  const styles = getMatchStyle(match);
+  const styles = getMatchStyle(rank);
 
   return (
     <div

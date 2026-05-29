@@ -32,7 +32,7 @@ export default function RecommendationSection({
   // Mencari skor tertinggi untuk keperluan highlight (Top Match)
   const highestScore = recommendation
     ? Math.max(
-        ...recommendation.map((rec) => parseFloat(rec.match_score) * 100),
+        ...recommendation.map((rec) => parseFloat(rec.match_score)),
         0
       )
     : 0;
@@ -111,6 +111,7 @@ export default function RecommendationSection({
                   icon={ICONS[index % ICONS.length]}
                   skills={rec.career.skills.map((s) => s.name)}
                   isTopMatch={isTopMatch}
+                  rank={index + 1}
                 />
               </motion.div>
             );
