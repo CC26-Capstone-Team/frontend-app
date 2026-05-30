@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, Target, BookOpen } from "lucide-react";
+import { LayoutDashboard, Target, BookOpen, UserCircle } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
@@ -32,6 +32,11 @@ const navigationItems: NavItem[] = [
     title: "Kursus & Belajar",
     href: "/courses",
     icon: <BookOpen className="h-5 w-5" />,
+  },
+  {
+    title: "Profil Saya",
+    href: "/profile",
+    icon: <UserCircle className="h-5 w-5" />,
   },
 ];
 

@@ -7,7 +7,8 @@ export function middleware(request: NextRequest) {
 
   const isProtectedRoute =
     pathname.startsWith("/dashboard") ||
-    pathname.startsWith("/career-recommendations");
+    pathname.startsWith("/career-recommendations") ||
+    pathname.startsWith("/profile");
 
   if (!token && isProtectedRoute) {
     return NextResponse.redirect(new URL("/login", request.url));
@@ -40,6 +41,7 @@ export const config = {
     "/dashboard/:path",
     "/career-recommendations",
     "/career-recommendations/:path*",
+    "/profile",
     "/onboarding",
   ],
 };
