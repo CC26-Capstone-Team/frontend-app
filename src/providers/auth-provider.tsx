@@ -1,7 +1,8 @@
 "use client";
 
 import { apiClient } from "@/lib/api";
-import { setCookie } from "cookies-next";
+import axios from "axios";
+import { deleteCookie, setCookie } from "cookies-next";
 import { createContext, useContext, useEffect, useState } from "react";
 
 interface Skill {
@@ -14,12 +15,13 @@ interface User {
   user_id: string;
   username: string;
   email: string;
+  token: string;
   major: string;
   gpa: string;
   updated_at: string;
   skills: Skill[];
   is_onboarded: boolean;
-  avatar_url: string
+  avatar_url: string;
 }
 
 interface AuthContextType {
@@ -49,19 +51,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
-    const res = await apiClient.post<{ user: { is_onboarded: boolean } }>(
-      "/auth/login",
-      { email, password }
-    );
+    const res = await apiClient.post<{
+      user: { is_onboarded: boolean; token: string };
+    }>("/auth/login", { email, password });
+
+    setCookie("token", res.data.user.token, { maxAge: 60 * 60 * 24 * 7 });
     setCookie("is_onboarded", String(res.data.user.is_onboarded));
     await fetchProfile();
   };
 
   const register = async (name: string, email: string, password: string) => {
-    const res = await apiClient.post<{ user: { is_onboarded: boolean } }>(
-      "/auth/register",
-      { name, email, password }
-    );
+    const res = await apiClient.post<{
+      user: { is_onboarded: boolean; token: string };
+    }>("/auth/register", { name, email, password });
+
+    setCookie("token", res.data.user.token, { maxAge: 60 * 60 * 24 * 7 });
     setCookie("is_onboarded", String(res.data.user.is_onboarded));
     await fetchProfile();
   };
@@ -79,6 +83,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await apiClient.post("/auth/logout");
     } finally {
+      deleteCookie("token");
+      deleteCookie("is_onboarding");
       setUser(null);
     }
   };
