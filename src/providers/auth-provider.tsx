@@ -1,7 +1,6 @@
 "use client";
 
 import { apiClient } from "@/lib/api";
-import axios from "axios";
 import { deleteCookie, setCookie } from "cookies-next";
 import { createContext, useContext, useEffect, useState } from "react";
 
