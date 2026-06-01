@@ -70,7 +70,7 @@ export default function CareerCard({
   skills,
 }: CareerCardProps) {
   const { career, match_score } = recommendation;
-  const score = Math.round(parseFloat(match_score) * 100);
+  const score = Math.round(parseFloat(match_score));
   const industry = career.industry ?? "Lainnya";
   const Icon = INDUSTRY_ICONS[industry] ?? Sparkles;
   const gradient = INDUSTRY_COLORS[industry] ?? "from-slate-500 to-gray-500";
