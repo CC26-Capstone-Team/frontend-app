@@ -70,10 +70,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const loginWithGoogle = async (googleToken: string) => {
-    const res = await apiClient.post<{ user: { is_onboarded: boolean } }>(
+    const res = await apiClient.post<{
+      user: { is_onboarded: boolean; token: string };
+    }>(
       "/auth/google", // Endpoint backend Express.js yang akan kita buat
       { token: googleToken }
     );
+
+    setCookie("token", res.data.user.token, { maxAge: 60 * 60 * 24 * 7 });
     setCookie("is_onboarded", String(res.data.user.is_onboarded));
     await fetchProfile();
   };
