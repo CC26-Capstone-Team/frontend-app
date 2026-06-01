@@ -13,8 +13,10 @@ import {
   RefreshCw,
   CheckCircle2,
 } from "lucide-react";
-import { useCourseRecommendation, useRefreshCourseRecommendation } from "../hooks/use-career-recommendations";
-import type { CourseRecommendation } from "../types/career-recommendations.types";
+import {
+  useCourseRecommendation,
+  useRefreshCourseRecommendation,
+} from "../hooks/use-career-recommendations";
 
 const LEVEL_COLORS: Record<string, string> = {
   Dasar: "bg-emerald-50 text-emerald-700 border-emerald-200",
@@ -27,8 +29,13 @@ interface CourseSectionProps {
 }
 
 export default function CourseSection({ careerTitle }: CourseSectionProps) {
-  const { data: courseData, isFetching: isQueryFetching, isError, refetch } = useCourseRecommendation(careerTitle);
-  const { mutateAsync: refreshCourse, isPending: isRefreshPending } = useRefreshCourseRecommendation(careerTitle);
+  const {
+    data: courseData,
+    isFetching: isQueryFetching,
+    isError,
+  } = useCourseRecommendation(careerTitle);
+  const { mutateAsync: refreshCourse, isPending: isRefreshPending } =
+    useRefreshCourseRecommendation(careerTitle);
   const [isSuccess, setIsSuccess] = useState(false);
 
   const isPending = isQueryFetching || isRefreshPending;
@@ -52,7 +59,7 @@ export default function CourseSection({ careerTitle }: CourseSectionProps) {
             Rekomendasi Kursus
           </h2>
         </div>
-        
+
         {courseData && (
           <button
             onClick={handleGenerate}
@@ -76,7 +83,9 @@ export default function CourseSection({ careerTitle }: CourseSectionProps) {
               </>
             ) : (
               <>
-                <RefreshCw className={`h-3.5 w-3.5 ${isPending ? "animate-spin" : ""}`} />
+                <RefreshCw
+                  className={`h-3.5 w-3.5 ${isPending ? "animate-spin" : ""}`}
+                />
                 {isPending ? "Memperbarui..." : "Rekomendasi Ulang"}
               </>
             )}
@@ -154,7 +163,7 @@ export default function CourseSection({ careerTitle }: CourseSectionProps) {
             <div className="rounded-2xl border border-indigo-100 bg-gradient-to-br from-indigo-50/80 to-purple-50/60 p-5">
               <div className="mb-2 flex items-center gap-2">
                 <Sparkles className="h-4 w-4 text-indigo-500" />
-                <span className="text-xs font-bold text-indigo-700 uppercase tracking-wide">
+                <span className="text-xs font-bold tracking-wide text-indigo-700 uppercase">
                   Analisis AI
                 </span>
               </div>
@@ -189,7 +198,7 @@ export default function CourseSection({ careerTitle }: CourseSectionProps) {
                       </span>
                     </div>
 
-                    <h4 className="text-sm font-bold text-slate-800 leading-snug">
+                    <h4 className="text-sm leading-snug font-bold text-slate-800">
                       {course.topic}
                     </h4>
 

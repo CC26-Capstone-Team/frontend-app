@@ -1,4 +1,4 @@
-import { ChevronDown, LogOut, Menu, User, X } from "lucide-react";
+import { ChevronDown, LogOut, Menu, X } from "lucide-react";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import {

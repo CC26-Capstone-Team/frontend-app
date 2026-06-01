@@ -22,7 +22,6 @@ import {
 import type { LucideIcon } from "lucide-react";
 import MatchScoreRing from "./MatchScoreRing";
 import type {
-  Career,
   RecommendationHistory,
   Skill,
 } from "../types/career-recommendations.types";
