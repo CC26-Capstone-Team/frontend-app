@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import LoginForm from "./LoginForm";
-import { Compass, Sparkles, BrainCircuit, Target } from "lucide-react";
+import { Sparkles, BrainCircuit, Target } from "lucide-react";
 
 export default function LoginPageClient() {
   return (
@@ -62,22 +63,25 @@ export default function LoginPageClient() {
         className="relative z-10 flex w-full max-w-md max-h-[95vh] overflow-hidden rounded-[2rem] border border-white/60 bg-white/40 shadow-2xl backdrop-blur-xl lg:max-w-6xl lg:flex-row"
       >
         {/* --- LEFT PANE (Hidden on Mobile) --- */}
-        <div className="hidden w-full flex-col justify-between overflow-y-auto border-r border-slate-200/40 p-6 lg:flex lg:w-5/12 lg:p-10 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+        <div className="hidden w-full flex-col overflow-y-auto border-r border-slate-200/40 p-6 lg:flex lg:w-5/12 lg:p-10 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {/* Logo */}
           <Link
             href="/"
-            className="group flex w-fit items-center gap-2 transition-opacity hover:opacity-80"
+            className="group flex w-fit items-center transition-opacity hover:opacity-80"
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white shadow-sm transition-transform group-hover:scale-105">
-              <Compass className="h-6 w-6 text-indigo-600" />
-            </div>
-            <span className="font-heading text-2xl font-extrabold tracking-tight text-slate-900">
-              CarPath<span className="text-emerald-500">Mu</span>
-            </span>
+            <Image
+              src={`/logo.png?v=${process.env.NEXT_PUBLIC_APP_VERSION || Date.now()}`}
+              alt="CarPathMu"
+              width={160}
+              height={44}
+              className="h-10 w-auto object-contain"
+              priority
+              unoptimized
+            />
           </Link>
 
           {/* Value Content */}
-          <div className="my-auto space-y-5 py-6">
+          <div className="mt-4 space-y-5">
             <div className="inline-flex items-center gap-2 rounded-full border border-indigo-200 bg-indigo-100/50 px-3 py-1.5 text-xs font-semibold text-indigo-700 backdrop-blur-sm">
               <Sparkles className="h-3.5 w-3.5 text-indigo-600" />
               Lanjutkan Perjalanan Anda
@@ -131,7 +135,7 @@ export default function LoginPageClient() {
           </div>
 
           {/* Footer Info */}
-          <div className="text-xs font-medium text-slate-400">
+          <div className="mt-auto pt-6 text-xs font-medium text-slate-400">
             © {new Date().getFullYear()} CarPathMu. Hak Cipta Dilindungi.
           </div>
         </div>
@@ -139,13 +143,16 @@ export default function LoginPageClient() {
         {/* --- RIGHT PANE (Form Utama) --- */}
         <div className="flex w-full flex-col justify-center overflow-y-auto bg-white/60 p-6 sm:p-8 lg:w-7/12 lg:p-10 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           {/* Mobile Logo Container */}
-          <div className="mb-6 flex items-center justify-center gap-2 lg:hidden">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-white shadow-sm">
-              <Compass className="h-5 w-5 text-indigo-600" />
-            </div>
-            <span className="font-heading text-xl font-extrabold tracking-tight text-slate-900">
-              CarPath<span className="text-emerald-500">Mu</span>
-            </span>
+          <div className="mb-6 flex items-center justify-center lg:hidden">
+            <Image
+              src={`/logo.png?v=${process.env.NEXT_PUBLIC_APP_VERSION || Date.now()}`}
+              alt="CarPathMu"
+              width={140}
+              height={36}
+              className="h-9 w-auto object-contain"
+              priority
+              unoptimized
+            />
           </div>
 
           {/* Komponen Form */}
