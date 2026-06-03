@@ -73,9 +73,9 @@ export default function MainHeader({
               <Image
                 src={`/logo.png?v=${process.env.NEXT_PUBLIC_APP_VERSION || Date.now()}`}
                 alt="CarPathMu"
-                width={160}
-                height={44}
-                className="h-9 w-auto object-contain"
+                width={120}
+                height={32}
+                className="h-7 w-auto object-contain"
                 priority
                 unoptimized
               />

@@ -108,9 +108,9 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
         <Image
           src="/logo.png"
           alt="CarPathMu"
-          width={120}
-          height={32}
-          className="mx-auto h-7 w-auto object-contain opacity-60"
+          width={90}
+          height={24}
+          className="mx-auto h-5 w-auto object-contain opacity-60"
         />
         <p>Teman Karir Terbaikmu</p>
       </div>
