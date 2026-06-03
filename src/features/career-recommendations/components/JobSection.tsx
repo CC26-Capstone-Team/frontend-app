@@ -170,7 +170,7 @@ export default function JobSection({ careerTitle }: JobSectionProps) {
             </div>
           ) : (
             /* Jobs Grid */
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               <AnimatePresence mode="popLayout">
                 {jobs.map((job, index) => {
                   const bgColors = [
@@ -190,46 +190,63 @@ export default function JobSection({ careerTitle }: JobSectionProps) {
                       initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 * index, duration: 0.3 }}
-                      className="group flex flex-col rounded-2xl border border-white/80 bg-white/80 p-5 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md backdrop-blur-sm"
+                      className="group flex flex-col overflow-hidden rounded-2xl border border-white/80 bg-white/80 p-5 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md backdrop-blur-sm"
                     >
-                      <div className="flex items-start justify-between gap-3">
-                        <div className="flex items-start gap-3 min-w-0">
-                          <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${logoBg}`}>
-                            <Building className="h-5 w-5" />
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <h4 className="truncate text-sm font-bold text-slate-800" title={job.title}>
-                              {job.title}
-                            </h4>
-                            <p className="truncate text-xs font-medium text-slate-500" title={job.company_name}>
-                              {job.company_name}
-                            </p>
-                          </div>
+                      {/* Header: Logo + Title + Match Score */}
+                      <div className="flex items-start gap-3">
+                        {/* Logo */}
+                        <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${logoBg}`}>
+                          <Building className="h-5 w-5" />
                         </div>
-                        {/* Match Score */}
-                        <div className="flex shrink-0 flex-col items-center justify-center rounded-lg bg-indigo-50 px-2 py-1.5 ring-1 ring-indigo-100/50">
-                          <span className="text-[10px] font-bold text-indigo-700">{job.match_score}%</span>
-                          <span className="text-[8px] font-semibold uppercase tracking-wider text-indigo-400">Match</span>
+
+                        {/* Title + Company (takes remaining space) */}
+                        <div className="min-w-0 flex-1">
+                          <h4
+                            className="truncate text-sm font-bold text-slate-800"
+                            title={job.title}
+                          >
+                            {job.title}
+                          </h4>
+                          <p
+                            className="truncate text-xs font-medium text-slate-500"
+                            title={job.company_name}
+                          >
+                            {job.company_name}
+                          </p>
+                          {/* Match Score — below title on mobile, stays inline */}
+                          <div className="mt-2 inline-flex items-center gap-1 rounded-lg bg-indigo-50 px-2 py-1 ring-1 ring-indigo-100/50">
+                            <span className="text-[10px] font-bold text-indigo-700">
+                              {job.match_score}%
+                            </span>
+                            <span className="text-[8px] font-semibold uppercase tracking-wider text-indigo-400">
+                              Match
+                            </span>
+                          </div>
                         </div>
                       </div>
 
+                      {/* Location + Via Tags */}
                       <div className="mt-4 flex flex-wrap items-center gap-2">
-                        <span className="inline-flex items-center gap-1 rounded-md bg-slate-100/80 px-2 py-1 text-[10px] font-semibold text-slate-600">
-                          <MapPin className="h-3 w-3" /> {job.location || "Indonesia"}
+                        <span className="inline-flex min-w-0 max-w-full items-center gap-1 rounded-md bg-slate-100/80 px-2 py-1 text-[10px] font-semibold text-slate-600">
+                          <MapPin className="h-3 w-3 shrink-0" />
+                          <span className="truncate">{job.location || "Indonesia"}</span>
                         </span>
                         {job.via && (
-                          <span className="inline-flex items-center gap-1 rounded-md bg-slate-100/80 px-2 py-1 text-[10px] font-semibold text-slate-600 truncate max-w-[120px]">
-                            <Target className="h-3 w-3" /> {job.via}
+                          <span className="inline-flex max-w-[140px] items-center gap-1 rounded-md bg-slate-100/80 px-2 py-1 text-[10px] font-semibold text-slate-600">
+                            <Target className="h-3 w-3 shrink-0" />
+                            <span className="truncate">{job.via}</span>
                           </span>
                         )}
                       </div>
 
+                      {/* Match Reason */}
                       <div className="mt-3 flex-1">
-                        <p className="line-clamp-2 text-xs leading-relaxed text-slate-500">
+                        <p className="line-clamp-3 text-xs leading-relaxed text-slate-500">
                           {job.match_reason}
                         </p>
                       </div>
 
+                      {/* Apply Button */}
                       <div className="mt-5 border-t border-slate-100 pt-4">
                         <a
                           href={job.apply_link || "#"}
@@ -238,7 +255,7 @@ export default function JobSection({ careerTitle }: JobSectionProps) {
                           className="flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-xl bg-indigo-600 px-4 py-2.5 text-xs font-semibold text-white shadow-sm transition-all hover:bg-indigo-700 active:scale-95"
                         >
                           Lamar Pekerjaan
-                          <ExternalLink className="h-3.5 w-3.5" />
+                          <ExternalLink className="h-3.5 w-3.5 shrink-0" />
                         </a>
                       </div>
                     </motion.div>
