@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { MoveRight, Code2, LineChart, Target, Terminal } from "lucide-react";
+import Link from "next/link";
 
 export default function HeroSection() {
   // === STATE UNTUK EFEK KETIKAN TERMINAL ===
@@ -180,16 +181,19 @@ export default function HeroSection() {
           <Button
             className="group w-full rounded-2xl bg-indigo-600 px-10 py-7 text-lg font-bold text-white transition-all hover:bg-indigo-700 hover:text-white hover:shadow-xl hover:shadow-indigo-500/30 sm:w-auto"
             variant={"outline"}
+            asChild
           >
-            Mulai Tes Gratis
-            <MoveRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+            <Link href={"/register"}>
+              Mulai Tes Gratis
+              <MoveRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </Link>
           </Button>
 
           <Button
             className="w-full rounded-2xl border-slate-300 bg-white/50 px-10 py-7 text-lg font-semibold text-slate-900 backdrop-blur-sm transition-all hover:bg-white/80 sm:w-auto"
             variant={"outline"}
           >
-            Pelajari Lebih Lanjut
+            <Link href={'#steps'}>Pelajari Lebih Lanjut</Link>
           </Button>
         </motion.div>
 

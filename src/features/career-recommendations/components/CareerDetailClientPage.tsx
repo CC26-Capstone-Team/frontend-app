@@ -86,7 +86,7 @@ export default function CareerDetailClientPage() {
 
   const career = recommendation?.career;
   const score = recommendation
-    ? Math.round(parseFloat(recommendation.match_score) * 100)
+    ? Math.round(parseFloat(recommendation.match_score))
     : 0;
   const industry = career?.industry ?? "Lainnya";
   const Icon = INDUSTRY_ICONS[industry] ?? Sparkles;
