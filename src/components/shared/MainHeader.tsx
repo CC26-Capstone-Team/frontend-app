@@ -1,4 +1,5 @@
-import { ChevronDown, LogOut, Menu, X } from "lucide-react";
+import { ChevronDown, LogOut, Menu, User, X } from "lucide-react";
+import Image from "next/image";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import {
@@ -68,11 +69,16 @@ export default function MainHeader({
               <span className="sr-only">Toggle sidebar</span>
             </button>
 
-            <Link href="/dashboard" className="flex items-center gap-2">
-              <h1 className="font-heading relative z-50 text-xl font-extrabold">
-                <span className="text-indigo-600">CarPath</span>
-                <span className="text-[#0f9488]">Mu</span>
-              </h1>
+            <Link href="/dashboard" className="flex items-center">
+              <Image
+                src={`/logo.png?v=${process.env.NEXT_PUBLIC_APP_VERSION || Date.now()}`}
+                alt="CarPathMu"
+                width={160}
+                height={44}
+                className="h-9 w-auto object-contain"
+                priority
+                unoptimized
+              />
             </Link>
           </div>
 

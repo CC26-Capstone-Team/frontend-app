@@ -1,10 +1,11 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { LayoutDashboard, Target, BookOpen, UserCircle } from "lucide-react";
+import { LayoutDashboard, Target, UserCircle } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import Image from "next/image";
 
 interface NavItem {
   title: string;
@@ -27,11 +28,6 @@ const navigationItems: NavItem[] = [
     title: "Rekomendasi Karir",
     href: "/career-recommendations",
     icon: <Target className="h-5 w-5" />,
-  },
-  {
-    title: "Kursus & Belajar",
-    href: "/courses",
-    icon: <BookOpen className="h-5 w-5" />,
   },
   {
     title: "Profil Saya",
@@ -109,7 +105,13 @@ export default function Sidebar({ sidebarOpen }: SidebarProps) {
         "border-t border-white/60 p-4 text-center text-xs font-light text-slate-500 transition-all",
         sidebarOpen ? "opacity-100 md:block" : "md:hidden"
       )}>
-        <p className="font-semibold text-slate-400">CARPATHMU v1.0.0</p>
+        <Image
+          src="/logo.png"
+          alt="CarPathMu"
+          width={120}
+          height={32}
+          className="mx-auto h-7 w-auto object-contain opacity-60"
+        />
         <p>Teman Karir Terbaikmu</p>
       </div>
     </aside>

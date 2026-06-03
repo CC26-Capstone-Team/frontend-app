@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -49,10 +50,15 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-slate-200/60 bg-white/80 backdrop-blur-md">
       <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-4 md:px-6">
         {/* BAGIAN KIRI: LOGO */}
-        <h1 className="font-heading relative z-50 text-xl font-extrabold">
-          <span className="text-indigo-600">CarPath</span>
-          <span className="text-[#0f9488]">Mu</span>
-        </h1>
+        <Image
+          src={`/logo.png?v=${process.env.NEXT_PUBLIC_APP_VERSION || Date.now()}`}
+          alt="CarPathMu"
+          width={160}
+          height={44}
+          className="h-9 w-auto object-contain"
+          priority
+          unoptimized
+        />
 
         {/* BAGIAN TENGAH: NAVIGASI DESKTOP */}
         <nav className="hidden items-center gap-8 md:flex">
