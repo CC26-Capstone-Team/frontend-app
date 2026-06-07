@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
     pathname.startsWith("/career-recommendations") ||
     pathname.startsWith("/profile");
 
-  if (!token && isProtectedRoute) {
+  if (!token && (isProtectedRoute || pathname.startsWith("/onboarding"))) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
